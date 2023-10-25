@@ -10,6 +10,20 @@ class Auth extends BaseController
 {
     public function index()
     {
+        helper('form', 'form_helper');
+        return view('auth/login.php');
+    }
+
+    public function login()
+    {
+        $validation = \Config\Services::validation();
+        $validation->withRequest($this->request);
+        $validation->loadRuleGroup('login');
+
+        if (!$validation->run()) {
+            return redirect()->back()->withInput();
+        } else {
+        }
     }
 
     public function register()

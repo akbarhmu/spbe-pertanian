@@ -19,7 +19,7 @@
         $requiredAttribute = $required ? 'required' : '';
         $placeholderText = $placeholder ? $placeholder : '';
         $classAttribute = $class ? $class : '';
-        $valueAttribute = $value ? $value : old($id);
+        $valueAttribute = ($value && $type != 'password') ? $value : old($id);
         $error = validation_show_error($id, 'single_error');
         $isInvalid = (isset(validation_errors()[$id])) ? 'is-invalid' : '';
 

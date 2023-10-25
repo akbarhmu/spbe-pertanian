@@ -82,4 +82,18 @@ class Validation extends BaseConfig
             'numeric'       => 'Kecamatan tidak valid',
         ],
     ];
+
+    public array $login = [
+        'email'             => 'required',
+        'password'          => 'required',
+    ];
+
+    public array $login_errors = [
+        'email' => [
+            'required'      => 'Email harus diisi',
+        ],
+        'password' => [
+            'required'      => 'Password harus diisi',
+        ],
+    ];
 }

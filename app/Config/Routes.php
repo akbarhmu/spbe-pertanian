@@ -7,6 +7,10 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 
-$routes->get('/register', 'Auth::register');
+$routes->get('/register', 'Auth::register', ['as' => 'register']);
 
 $routes->post('/register', 'Auth::store', ['as' => 'user.store']);
+
+$routes->get('/login', 'Auth::index', ['as' => 'login']);
+
+$routes->post('/login', 'Auth::login', ['as' => 'user.login']);
