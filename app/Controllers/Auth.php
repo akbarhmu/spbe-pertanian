@@ -23,6 +23,46 @@ class Auth extends BaseController
         if (!$validation->run()) {
             return redirect()->back()->withInput();
         } else {
+            $userModel = new UserModel();
+            $validatedData = $validation->getValidated();
+
+            $user = $userModel->where('email', $validatedData['email'])->first();
+
+            if ($user) {
+                if (password_verify($validatedData['password'], $user['password'])) {
+                    $data = [
+                        'id' => $user['id'],
+                        'name' => $user['name'],
+                        'email' => $user['email'],
+                        'phone_number' => $user['phone_number'],
+                        'kecamatan_id' => $user['kecamatan_id'],
+                        'isLoggedIn' => true
+                    ];
+
+                    session()->set($data);
+                    session()->setFlashdata('alert_message', [
+                        'type' => 'success',
+                        'message' => 'Login berhasil',
+                        'icon' => 'fa-solid fa-check'
+                    ]);
+
+                    return redirect()->to('/dashboard');
+                } else {
+                    session()->setFlashdata('alert_message', [
+                        'type' => 'danger',
+                        'message' => 'Login gagal. Periksa kembali email dan password anda.',
+                        'icon' => 'fa-solid fa-xmark'
+                    ]);
+                    return redirect()->back();
+                }
+            } else {
+                session()->setFlashdata('alert_message', [
+                    'type' => 'danger',
+                    'message' => 'Login gagal. Periksa kembali email dan password anda.',
+                    'icon' => 'fa-solid fa-xmark'
+                ]);
+                return redirect()->back();
+            }
         }
     }
 
@@ -78,5 +118,16 @@ class Auth extends BaseController
             }
             return redirect()->back();
         }
+    }
+
+    public function logout()
+    {
+        session()->destroy();
+        session()->setFlashdata('alert_message', [
+            'type' => 'success',
+            'message' => 'Logout berhasil',
+            'icon' => 'fa-solid fa-check'
+        ]);
+        return redirect()->to('/login');
     }
 }
