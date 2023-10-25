@@ -47,7 +47,7 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="kecamatan">Kecamatan</label>
-                                            <select id="kecamatan" name="kecamatan" class="form-control">
+                                            <select id="kecamatan" name="kecamatan" class="form-select">
                                                 <?php foreach ($kecamatans as $kecamatan) : ?>
                                                     <option value=<?= $kecamatan['id'] ?>><?= $kecamatan['name'] ?></option>
                                                 <?php endforeach ?>
