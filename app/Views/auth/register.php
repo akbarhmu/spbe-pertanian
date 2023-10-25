@@ -12,6 +12,7 @@
 </div>
 <form action="<?= url_to('user.store') ?>" method="post">
     <?= show_alert_message() ?>
+    <?= csrf_field() ?>
     <div class="row">
         <div class="col-md-6 col-12">
             <div class="form-group is-required">
