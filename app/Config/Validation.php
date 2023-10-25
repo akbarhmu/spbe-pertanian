@@ -45,7 +45,7 @@ class Validation extends BaseConfig
     public array $register = [
         'name'              => 'required|max_length[60]',
         'email'             => 'required|valid_email|is_unique[users.email]',
-        'phoneNumber'       => 'required|numeric|max_length[13]',
+        'phoneNumber'       => 'required|numeric|min_length[8]|max_length[14]',
         'password'          => 'required|min_length[8]|max_length[255]',
         'retypePassword'    => 'required|max_length[255]|matches[password]',
         'kecamatan'         => 'required|numeric',
@@ -64,7 +64,8 @@ class Validation extends BaseConfig
         'phoneNumber' => [
             'required'      => 'Nomor telepon harus diisi',
             'numeric'       => 'Nomor telepon harus berupa angka',
-            'max_length'    => 'Nomor telepon tidak boleh lebih dari 13 karakter',
+            'min_length'    => 'Nomor telepon minimal 8 karakter',
+            'max_length'    => 'Nomor telepon tidak boleh lebih dari 14 karakter',
         ],
         'password' => [
             'required'      => 'Password harus diisi',
@@ -78,7 +79,7 @@ class Validation extends BaseConfig
         ],
         'kecamatan' => [
             'required'      => 'Kecamatan harus diisi',
-            'numeric'       => 'Kecamatan harus berupa angka',
+            'numeric'       => 'Kecamatan tidak valid',
         ],
     ];
 }
