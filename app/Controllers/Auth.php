@@ -17,7 +17,7 @@ class Auth extends BaseController
         helper('form', 'form_helper');
         $kecamatans = new KecamatanModel();
         $data["kecamatans"] = $kecamatans->findAll();
-        return view('register.php', $data);
+        return view('auth/register.php', $data);
     }
 
     public function store()
