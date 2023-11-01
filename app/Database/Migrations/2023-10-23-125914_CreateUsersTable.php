@@ -16,12 +16,10 @@ class CreateUsersTable extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'kecamatan_id' => [
+            'id_kec' => [
                 'type' => 'INT',
-                'constraint' => 5,
-                'unsigned' => true,
+                'constraint' => 10,
                 'null' => false,
-                'unique' => true,
             ],
             'name' => [
                 'type' => 'VARCHAR',
@@ -62,7 +60,7 @@ class CreateUsersTable extends Migration
             ],
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('kecamatan_id', 'kecamatans', 'id');
+        $this->forge->addForeignKey('id_kec', 'mst_kec', 'id');
         $this->forge->createTable('users');
     }
 

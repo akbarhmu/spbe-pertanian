@@ -85,13 +85,13 @@ class Auth extends BaseController
         } else {
             try {
                 $validatedData = $validation->getValidated();
-    
+
                 $name = $validatedData['name'];
                 $email = $validatedData['email'];
                 $phoneNumber = $validatedData['phoneNumber'];
                 $password = $validatedData['password'];
                 $kecamatan = $validatedData['kecamatan'];
-        
+
                 $data = [
                     "name" => $name,
                     "email" => $email,
@@ -99,24 +99,27 @@ class Auth extends BaseController
                     "password" => password_hash($password, PASSWORD_DEFAULT),
                     "kecamatan_id" => $kecamatan,
                 ];
-        
+
                 $user = new UserModel();
-        
+
                 $user->insert($data);
-        
+                $data["isLoggedIn"] = true;
+                session()->set($data);
                 session()->setFlashdata('alert_message', [
                     'type' => 'success',
                     'message' => 'Akun berhasil dibuat',
                     'icon' => 'fa-solid fa-check'
                 ]);
+                return redirect()->to('/dashboard');
             } catch (\Throwable $th) {
                 session()->setFlashdata('alert_message', [
                     'type' => 'danger',
                     'message' => 'Akun gagal dibuat',
                     'icon' => 'fa-solid fa-xmark'
                 ]);
+                dd($th->getMessage());
+                return redirect()->back();
             }
-            return redirect()->back();
         }
     }
 
