@@ -97,7 +97,7 @@ class Auth extends BaseController
                     "email" => $email,
                     "phone_number" => $phoneNumber,
                     "password" => password_hash($password, PASSWORD_DEFAULT),
-                    "kecamatan_id" => $kecamatan,
+                    "id_kec" => $kecamatan,
                 ];
 
                 $user = new UserModel();
