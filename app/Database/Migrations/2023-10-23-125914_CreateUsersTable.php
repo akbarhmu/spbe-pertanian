@@ -18,7 +18,8 @@ class CreateUsersTable extends Migration
             ],
             'id_kec' => [
                 'type' => 'INT',
-                'constraint' => 10,
+                'constraint' => 15,
+                'unsigned' => true,
                 'null' => false,
             ],
             'name' => [
@@ -60,7 +61,7 @@ class CreateUsersTable extends Migration
             ],
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('id_kec', 'mst_kec', 'id');
+        $this->forge->addForeignKey('id_kec', 'mst_kec', 'id_kec');
         $this->forge->createTable('users');
     }
 

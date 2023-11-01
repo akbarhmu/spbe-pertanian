@@ -8,6 +8,9 @@ class ImportKecamatan extends Migration
 {
     public function up()
     {
+        $query = 'DROP TABLE IF EXISTS mst_kec';
+        $this->db->query($query);
+
         $sqlKecFile = APPPATH . 'Database/Migrations/kec.sql';
 
         $kecSql = file_get_contents($sqlKecFile);

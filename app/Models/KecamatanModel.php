@@ -8,7 +8,7 @@ class KecamatanModel extends Model
 {
     protected $DBGroup          = 'default';
     protected $table            = 'mst_kec';
-    protected $primaryKey       = 'id';
+    protected $primaryKey       = 'id_kec';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
