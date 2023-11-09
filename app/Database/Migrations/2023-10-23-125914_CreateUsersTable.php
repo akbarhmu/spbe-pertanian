@@ -61,7 +61,7 @@ class CreateUsersTable extends Migration
             ],
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('id_kec', 'mst_kec', 'id_kec');
+        $this->forge->addForeignKey('id_kec', 'mst_kec', 'id_kec', 'CASCADE', 'CASCADE');
         $this->forge->createTable('users');
     }
 

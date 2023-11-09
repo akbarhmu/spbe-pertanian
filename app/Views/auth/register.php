@@ -43,7 +43,7 @@ Daftar
                                         <label for="kecamatan">Kecamatan</label>
                                         <select id="kecamatan" name="kecamatan" class="form-select <?= (isset(validation_errors()['kecamatan'])) ? 'is-invalid' : '' ?>" required>
                                             <?php foreach ($kecamatans as $kecamatan) : ?>
-                                                <option value=<?= $kecamatan['id'] ?> <?= ($kecamatan['id'] == old('kecamatan') ? 'selected' : '') ?>><?= $kecamatan['nm_kec'] ?></option>
+                                                <option value=<?= $kecamatan['id_kec'] ?> <?= ($kecamatan['id_kec'] == old('kecamatan') ? 'selected' : '') ?>><?= $kecamatan['nm_kec'] ?></option>
                                             <?php endforeach ?>
                                         </select>
                                         <?= validation_show_error('kecamatan', 'single_error') ?>

@@ -75,8 +75,8 @@
                                 </ul>
                             </div>
                         </li>
-                        <?=form_open(url_to('user.logout'), ['id' => 'logout-form'])?>
-                        <?=form_close()?>
+                        <?= form_open(url_to('user.logout'), ['id' => 'logout-form']) ?>
+                        <?= form_close() ?>
                         <li class="dropdown nav-icon me-2">
                             <a href="#" data-bs-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                                 <div class="d-lg-inline-block">

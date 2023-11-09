@@ -20,7 +20,7 @@ Masuk
                         <div class="form-group position-relative has-icon-left is-required">
                             <label for="email">Email</label>
                             <div class="position-relative">
-                                <?= form_input_with_validation(type: "email", id: "email", required: true) ?>
+                                <?= form_input_with_validation(type: "email", id: "email", required: true, placeholder: "Masukkan email anda...") ?>
                                 <div class="form-control-icon">
                                     <i data-feather="user"></i>
                                 </div>
@@ -29,7 +29,7 @@ Masuk
                         <div class="form-group position-relative has-icon-left is-required">
                             <label for="password">Password</label>
                             <div class="position-relative">
-                                <?= form_input_with_validation(type: "password", id: "password", required: true) ?>
+                                <?= form_input_with_validation(type: "password", id: "password", required: true, placeholder: "Masukkan password anda...") ?>
                                 <div class="form-control-icon">
                                     <i data-feather="lock"></i>
                                 </div>
