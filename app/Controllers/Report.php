@@ -27,53 +27,48 @@ class Report extends BaseController
     }
     public function store()
     {
-        // $posttt = $this->request->getPost('lahan');
-        // dd(array_keys($posttt));
-        $lahan = new LahanModel();
-
+        // $dataPost = $this->request->getPost();
         $validation = \Config\Services::validation();
         $validation->withRequest($this->request);
         $validation->loadRuleGroup('lahan');
 
+
         if (!$validation->run()) {
+            // dd($validation);
             return redirect()->back()->withInput();
         } else {
             try {
-
+                $lahan = new LahanModel();
                 $validatedData = $validation->getValidated();
-
                 $month = $validatedData['month'];
                 $week = $validatedData['week'];
                 $kelurahan = $validatedData['kelurahan'];
-                $luas_padi_sawah = $validatedData['luas_padi_sawah'];
-                $luas_padi_tegal = $validatedData['luas_padi_tegal'];
-                $luas_jagung_sawah = $validatedData['luas_jagung_sawah'];
-                $luas_jagung_tegal = $validatedData['luas_jagung_tegal'];
-                $luas_kedelai_sawah = $validatedData['luas_kedelai_sawah'];
-                $luas_kedelai_tegal = $validatedData['luas_kedelai_tegal'];
 
-                $data = [
-                    "user_id" => session()->get('id'),
-                    "desa_id" => $kelurahan,
-                    "minggu" => $week,
-                    "bulan" => $month,
-
-                ];
-
+                foreach ($validatedData['lahan'] as $key => $value) {
+                    $data = [
+                        "user_id" => session()->get('id'),
+                        "desa_id" => $kelurahan,
+                        "minggu" => $week,
+                        "bulan" => $month,
+                        "tipe_komoditas" => $key,
+                        'luas' => $value,
+                    ];
+                    $lahan->insert($data);
+                };
 
                 session()->setFlashdata('alert_message', [
                     'type' => 'success',
-                    'message' => 'Akun berhasil dibuat',
+                    'message' => 'Data berhasil dibuat',
                     'icon' => 'fa-solid fa-check'
                 ]);
                 return redirect()->to('/dashboard');
             } catch (\Throwable $th) {
                 session()->setFlashdata('alert_message', [
                     'type' => 'danger',
-                    'message' => 'Akun gagal dibuat',
+                    'message' => 'Data gagal dibuat',
                     'icon' => 'fa-solid fa-xmark'
                 ]);
-                dd($th->getMessage());
+                // dd($th->getMessage());
                 return redirect()->back();
             }
         }
