@@ -16,7 +16,7 @@ Formulir Lahan Desa
                             <h3>Laporan Mingguan Realisasi UPSUS LTT Tahun 2023 Kabupaten Malang</h3>
                             <p>Lengkapi data-data dibawah ini</p>
                         </div>
-                        <form action="<?= url_to('user.store') ?>" method="post">
+                        <form action="<?= url_to('lahan.store') ?>" method="post">
                             <?= show_alert_message() ?>
                             <?= csrf_field() ?>
                             <div class="row">
@@ -70,38 +70,38 @@ Formulir Lahan Desa
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group is-required">
-                                        <label for="name">Luas Tanaman Padi Lahan Sawah</label>
-                                        <?= form_input_with_validation(type: "text", id: "name", required: true, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
+                                        <label for="lahan[Padi Lahan Sawah]">Luas Tanaman Padi Lahan Sawah</label>
+                                        <?= form_input_with_validation(type: "text", id: "lahan[Padi Lahan Sawah]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group is-required">
-                                        <label for="name">Luas Tanaman Padi Lahan Tegal</label>
-                                        <?= form_input_with_validation(type: "text", id: "name", required: true, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
+                                        <label for="lahan[Padi Lahan Tegal]">Luas Tanaman Padi Lahan Tegal</label>
+                                        <?= form_input_with_validation(type: "text", id: "lahan[Padi Lahan Tegal]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group is-required">
-                                        <label for="name">Luas Tanaman Jagung Lahan Sawah</label>
-                                        <?= form_input_with_validation(type: "text", id: "name", required: true, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
+                                        <label for="lahan[Jagung Lahan Sawah]">Luas Tanaman Jagung Lahan Sawah</label>
+                                        <?= form_input_with_validation(type: "text", id: "lahan[Jagung Lahan Sawah]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group is-required">
-                                        <label for="name">Luas Tanaman Jagung Lahan Tegal</label>
-                                        <?= form_input_with_validation(type: "text", id: "name", required: true, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
+                                        <label for="lahan[Jagung Lahan Tegal]">Luas Tanaman Jagung Lahan Tegal</label>
+                                        <?= form_input_with_validation(type: "text", id: "lahan[Jagung Lahan Tegal]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group is-required">
-                                        <label for="name">Luas Tanaman Kedelai Lahan Sawah</label>
-                                        <?= form_input_with_validation(type: "text", id: "name", required: true, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
+                                        <label for="lahan[Kedelai Lahan Sawah]">Luas Tanaman Kedelai Lahan Sawah</label>
+                                        <?= form_input_with_validation(type: "text", id: "lahan[Kedelai Lahan Sawah]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group is-required">
-                                        <label for="name">Luas Tanaman Kedelai Lahan Tegal</label>
-                                        <?= form_input_with_validation(type: "text", id: "name", required: true, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
+                                        <label for="lahan[Kedelai Lahan Tegal]">Luas Tanaman Kedelai Lahan Tegal</label>
+                                        <?= form_input_with_validation(type: "text", id: "lahan[Kedelai Lahan Tegal]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
                                     </div>
                                 </div>
 

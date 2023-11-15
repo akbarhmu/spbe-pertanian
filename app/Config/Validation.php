@@ -51,6 +51,34 @@ class Validation extends BaseConfig
         'kecamatan'         => 'required|numeric',
     ];
 
+    public array $lahan = [
+        'month'              => 'required',
+        'week'             => 'required|numeric|less_than[6]',
+        'kelurahan'       => 'required|numeric',
+        'lahan[*]'    => 'required|numeric',
+    ];
+
+    public array $lahan_errors = [
+        'month' => [
+            'required'      => 'Bulan laporan harus diisi',
+        ],
+        'week' => [
+            'required'      => 'Minggu laporan harus diisi',
+            'numeric'   => 'Minggu tidak valid',
+            'less_than[6]'     => 'Input minggu maksimal 5',
+        ],
+        'kelurahan' => [
+            'required'      => 'Kelurahan harus diisi',
+            'numeric'       => 'Kelurahan tidak valid',
+        ],
+        'lahan[*]' => [
+            'required'      => 'Luas tanaman ini harus diisi',
+            'numeric'       => 'Input luas harus berupa numerik atau angka',
+        ],
+
+
+    ];
+
     public array $register_errors = [
         'name' => [
             'required'      => 'Nama harus diisi',

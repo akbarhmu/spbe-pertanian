@@ -38,38 +38,14 @@ class CreateLahansTable extends Migration
                 'constraint' => 10,
                 'null' => false,
             ],
-            'luas_padi_sawah' => [
-                'type' => 'INT',
-                'constraint' => 10,
+            'tipe_komoditas' => [
+                'type' => 'VARCHAR',
+                'constraint' => 100,
                 'null' => false,
             ],
-            'luas_padi_tegal' => [
+            'luas' => [
                 'type' => 'INT',
                 'constraint' => 10,
-                'null' => false,
-            ],
-            'luas_jagung_sawah' => [
-                'type' => 'INT',
-                'constraint' => 10,
-                'null' => false,
-            ],
-            'luas_jagung_tegal' => [
-                'type' => 'INT',
-                'constraint' => 10,
-                'null' => false,
-            ],
-            'luas_kedelai_sawah' => [
-                'type' => 'INT',
-                'constraint' => 10,
-                'null' => false,
-            ],
-            'luas_kedelai_tegal' => [
-                'type' => 'INT',
-                'constraint' => 10,
-                'null' => false,
-            ],
-            'komoditas' => [
-                'type' => 'JSON',
                 'null' => false,
             ],
             'created_at' => [

@@ -103,7 +103,9 @@ class Auth extends BaseController
                 $user = new UserModel();
 
                 $user->insert($data);
+                $data["id"] = $user->getInsertID();
                 $data["isLoggedIn"] = true;
+                unset($data["password"]);
                 session()->set($data);
                 session()->setFlashdata('alert_message', [
                     'type' => 'success',
