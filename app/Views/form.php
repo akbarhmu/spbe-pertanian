@@ -1,7 +1,7 @@
 <?= $this->extend('layouts/auth') ?>
 
 <?= $this->section('page_title') ?>
-Daftar
+Formulir Lahan Desa
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
