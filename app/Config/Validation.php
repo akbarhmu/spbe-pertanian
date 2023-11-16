@@ -51,14 +51,14 @@ class Validation extends BaseConfig
         'kecamatan'         => 'required|numeric',
     ];
 
-    public array $lahan = [
+    public array $report = [
         'lahan.*' => 'required|numeric',
         'month'              => 'required',
         'week'             => 'required|numeric|less_than[6]',
         'kelurahan'       => 'required|numeric',
     ];
 
-    public array $lahan_errors = [
+    public array $report_errors = [
         'lahan.*' => [
             'required' => ' harus diisi',
             'numeric' => 'harus angka',

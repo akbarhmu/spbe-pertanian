@@ -24,4 +24,4 @@ $routes->group('dashboard', ['filter' => 'auth'], function ($routes) {
 });
 
 $routes->get('/formulir', 'Report::index');
-$routes->post('/formulir', 'Report::store', ['as' => 'lahan.store']);
+$routes->post('/formulir', 'Report::store', ['as' => 'lahan.store', ['filter' => 'auth']]);

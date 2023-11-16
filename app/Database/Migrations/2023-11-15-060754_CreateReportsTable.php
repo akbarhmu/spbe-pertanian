@@ -5,7 +5,7 @@ namespace App\Database\Migrations;
 use CodeIgniter\Database\Migration;
 use CodeIgniter\I18n\Time;
 
-class CreateLahansTable extends Migration
+class CreateReportsTable extends Migration
 {
     public function up()
     {
@@ -16,13 +16,19 @@ class CreateLahansTable extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'user_id' => [
+            'id_user' => [
                 'type' => 'INT',
                 'constraint' => 5,
                 'unsigned' => true,
                 'null' => false,
             ],
-            'desa_id' => [
+            'id_kec' => [
+                'type' => 'INT',
+                'constraint' => 15,
+                'unsigned' => true,
+                'null' => false,
+            ],
+            'id_desa' => [
                 'type' => 'BIGINT',
                 'constraint' => 20,
                 'unsigned' => true,
@@ -62,13 +68,14 @@ class CreateLahansTable extends Migration
             ],
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('desa_id', 'mst_desa', 'id_desa', 'CASCADE', 'CASCADE');
-        $this->forge->createTable('lahans');
+        $this->forge->addForeignKey('id_user', 'users', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_kec', 'mst_kec', 'id_kec', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_desa', 'mst_desa', 'id_desa', 'CASCADE', 'CASCADE');
+        $this->forge->createTable('reports');
     }
 
     public function down()
     {
-        $this->forge->dropTable('lahans');
+        $this->forge->dropTable('reports');
     }
 }

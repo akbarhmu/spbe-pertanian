@@ -4,10 +4,10 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class LahanModel extends Model
+class ReportModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'lahans';
+    protected $table            = 'reports';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';

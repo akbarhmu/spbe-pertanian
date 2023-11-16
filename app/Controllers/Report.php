@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\KecamatanModel;
 use App\Models\KelurahanModel;
-use App\Models\LahanModel;
+use App\Models\ReportModel;
 use App\Models\UserModel;
 
 class Report extends BaseController
@@ -30,7 +30,7 @@ class Report extends BaseController
         // $dataPost = $this->request->getPost();
         $validation = \Config\Services::validation();
         $validation->withRequest($this->request);
-        $validation->loadRuleGroup('lahan');
+        $validation->loadRuleGroup('report');
 
 
         if (!$validation->run()) {
@@ -38,7 +38,7 @@ class Report extends BaseController
             return redirect()->back()->withInput();
         } else {
             try {
-                $lahan = new LahanModel();
+                $lahan = new ReportModel();
                 $validatedData = $validation->getValidated();
                 $month = $validatedData['month'];
                 $week = $validatedData['week'];
@@ -46,8 +46,9 @@ class Report extends BaseController
 
                 foreach ($validatedData['lahan'] as $key => $value) {
                     $data = [
-                        "user_id" => session()->get('id'),
-                        "desa_id" => $kelurahan,
+                        "id_user" => session()->get('id'),
+                        "id_desa" => $kelurahan,
+                        "id_kec" => session()->get('id_kec'),
                         "minggu" => $week,
                         "bulan" => $month,
                         "tipe_komoditas" => $key,
