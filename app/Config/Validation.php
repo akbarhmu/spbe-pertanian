@@ -122,4 +122,26 @@ class Validation extends BaseConfig
             'required'      => 'Password harus diisi',
         ],
     ];
+
+    public array $create_commodity = [
+        'name'              => 'required|max_length[60]',
+    ];
+
+    public array $create_commodity_errors = [
+        'name' => [
+            'required'      => 'Nama komoditas harus diisi',
+            'max_length'    => 'Nama komoditas tidak boleh lebih dari 60 karakter',
+        ],
+    ];
+
+    public array $update_commodity = [
+        'name'              => 'required|max_length[60]',
+    ];
+
+    public array $update_commodity_errors = [
+        'name' => [
+            'required'      => 'Nama komoditas harus diisi',
+            'max_length'    => 'Nama komoditas tidak boleh lebih dari 60 karakter',
+        ],
+    ];
 }

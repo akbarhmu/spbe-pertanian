@@ -34,6 +34,11 @@ class CreateReportsTable extends Migration
                 'unsigned' => true,
                 'null' => false,
             ],
+            'id_commodity' => [
+                'type' => 'INT',
+                'constraint' => 5,
+                'unsigned' => true,
+            ],
             'bulan' => [
                 'type' => 'VARCHAR',
                 'constraint' => 100,
@@ -71,6 +76,7 @@ class CreateReportsTable extends Migration
         $this->forge->addForeignKey('id_user', 'users', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('id_kec', 'mst_kec', 'id_kec', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('id_desa', 'mst_desa', 'id_desa', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_commodity', 'commodities', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('reports');
     }
 
