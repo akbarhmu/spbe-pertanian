@@ -159,7 +159,7 @@ Formulir Lahan Desa
                     <label for="">Luas Tanaman `+commodityName+`</label>
                     <div class="input-group is-required">
                         <input type="number" name="lahan[`+commodityId+`]" class="form-control" placeholder="Isi luas tanah dalam satuan (Ha)" required>
-                        <button class="btn btn-danger" type="button" onclick="this.parentElement.parentElement.remove()">
+                        <button class="btn btn-danger" type="button" onclick="this.parentElement.parentElement.remove();restoreCommodityOption(`+commodityId+`, '`+commodityName+`');">
                             <i class="fas fa-trash"></i> Hapus
                         </button>
                     </div>
@@ -167,7 +167,18 @@ Formulir Lahan Desa
             </div>
         `;
         inputArea.appendChild(newDiv);
+
+        document.getElementById('commodity').options[document.getElementById('commodity').selectedIndex].remove();
+
         $('#addCommodityFieldModal').modal('hide');
+    }
+
+    function restoreCommodityOption($id, $name) {
+        var select = document.getElementById('commodity');
+        var option = document.createElement('option');
+        option.value = $id;
+        option.text = $name;
+        select.appendChild(option);
     }
 </script>
 <?= $this->endSection() ?>
