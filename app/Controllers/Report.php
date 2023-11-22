@@ -23,6 +23,7 @@ class Report extends BaseController
         $data["weeks"] = ["1 (Satu)", "2 (Dua)", "3 (Tiga)", "4 (Empat)", "5 (Lima)"];
         $data["months"] = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
         $data["kelurahans"] = $kelurahans->where("id_kec", $kec_id)->findAll();
+        $data['mandatoryCommodities'] = $commodities->where('mandatory', true)->findAll();
         $data['commodities'] = $commodities->where('mandatory', false)->findAll();
         return view('form.php', $data);
     }
@@ -52,7 +53,7 @@ class Report extends BaseController
                         "id_kec" => session()->get('id_kec'),
                         "minggu" => $week,
                         "bulan" => $month,
-                        "tipe_komoditas" => $key,
+                        "id_commodity" => $key,
                         'luas' => $value,
                     ];
                     $lahan->insert($data);

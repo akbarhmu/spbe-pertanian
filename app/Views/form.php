@@ -68,42 +68,14 @@ Formulir Lahan Desa
                                         <?= validation_show_error('kelurahan', 'single_error') ?>
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <div class="form-group is-required">
-                                        <label for="lahan[Padi Lahan Sawah]">Luas Tanaman Padi Lahan Sawah</label>
-                                        <?= form_input_with_validation(type: "text", id: "lahan[Padi Lahan Sawah]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
+                                <?php foreach($mandatoryCommodities as $mandatoryCommodity) { ?>
+                                    <div class="col-12">
+                                        <div class="form-group is-required">
+                                            <label for="lahan[<?=$mandatoryCommodity['id']?>]">Luas Tanaman <?=$mandatoryCommodity['name']?> Lahan <?=$mandatoryCommodity['type']?></label>
+                                            <?= form_input_with_validation(type: "text", id: "lahan[".$mandatoryCommodity['id']."]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group is-required">
-                                        <label for="lahan[Padi Lahan Tegal]">Luas Tanaman Padi Lahan Tegal</label>
-                                        <?= form_input_with_validation(type: "text", id: "lahan[Padi Lahan Tegal]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group is-required">
-                                        <label for="lahan[Jagung Lahan Sawah]">Luas Tanaman Jagung Lahan Sawah</label>
-                                        <?= form_input_with_validation(type: "text", id: "lahan[Jagung Lahan Sawah]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group is-required">
-                                        <label for="lahan[Jagung Lahan Tegal]">Luas Tanaman Jagung Lahan Tegal</label>
-                                        <?= form_input_with_validation(type: "text", id: "lahan[Jagung Lahan Tegal]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group is-required">
-                                        <label for="lahan[Kedelai Lahan Sawah]">Luas Tanaman Kedelai Lahan Sawah</label>
-                                        <?= form_input_with_validation(type: "text", id: "lahan[Kedelai Lahan Sawah]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group is-required">
-                                        <label for="lahan[Kedelai Lahan Tegal]">Luas Tanaman Kedelai Lahan Tegal</label>
-                                        <?= form_input_with_validation(type: "text", id: "lahan[Kedelai Lahan Tegal]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
-                                    </div>
-                                </div>
+                                <?php } ?>
 
                                 <div class="col-12 mt-3">
                                     <div class="d-flex justify-content-between align-items-center">
@@ -147,7 +119,7 @@ Formulir Lahan Desa
                     <select class="form-select" id="commodity">
                         <option value="">Pilih Jenis Tanaman</option>
                         <?php foreach($commodities as $row) { ?>
-                            <option value="<?=$row['id']?>"><?=$row['name']?></option>
+                            <option value="<?=$row['id']?>"><?=$row['name']?> Lahan <?=$row['type']?></option>
                         <?php } ?>
                     </select>
                 </div>
@@ -178,13 +150,13 @@ Formulir Lahan Desa
             alert('Pilih komoditas terlebih dahulu');
             return;
         }
-        
+
         var newDiv = document.createElement('div');
         newDiv.setAttribute('class', 'row');
         newDiv.innerHTML = `
             <div class="col-12">
                 <div class="form-group is-required">
-                    <label for="">Luas Tanaman `+commodityName+` Lahan</label>
+                    <label for="">Luas Tanaman `+commodityName+`</label>
                     <div class="input-group is-required">
                         <input type="number" name="lahan[`+commodityId+`]" class="form-control" placeholder="Isi luas tanah dalam satuan (Ha)" required>
                         <button class="btn btn-danger" type="button" onclick="this.parentElement.parentElement.remove()">
