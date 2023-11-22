@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\CommodityModel;
 use App\Models\KecamatanModel;
 use App\Models\KelurahanModel;
 use App\Models\ReportModel;
@@ -15,12 +16,15 @@ class Report extends BaseController
         helper('form', 'form_helper');
         $kecamatans = new KecamatanModel();
         $kelurahans = new KelurahanModel();
+        $commodities = new CommodityModel();
         $data["name"] = session()->get('name');
         $kec_id = session()->get('id_kec');
         $data["kecamatans"] = $kecamatans->where('id_kec', $kec_id)->findAll();
         $data["weeks"] = ["1 (Satu)", "2 (Dua)", "3 (Tiga)", "4 (Empat)", "5 (Lima)"];
         $data["months"] = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
         $data["kelurahans"] = $kelurahans->where("id_kec", $kec_id)->findAll();
+        $data['mandatoryCommodities'] = $commodities->where('mandatory', true)->findAll();
+        $data['commodities'] = $commodities->where('mandatory', false)->findAll();
         return view('form.php', $data);
     }
     public function store()
@@ -49,7 +53,7 @@ class Report extends BaseController
                         "id_kec" => session()->get('id_kec'),
                         "minggu" => $week,
                         "bulan" => $month,
-                        "tipe_komoditas" => $key,
+                        "id_commodity" => $key,
                         'luas' => $value,
                     ];
                     $lahan->insert($data);

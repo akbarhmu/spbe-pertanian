@@ -70,7 +70,7 @@ class Auth extends BaseController
     {
         helper('form', 'form_helper');
         $kecamatans = new KecamatanModel();
-        $data["kecamatans"] = $kecamatans->findAll();
+        $data["kecamatans"] = $kecamatans->orderBy('nm_kec', 'ASC')->findAll();
         return view('auth/register.php', $data);
     }
 

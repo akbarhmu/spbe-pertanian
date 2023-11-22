@@ -125,7 +125,7 @@ class Validation extends BaseConfig
 
     public array $create_commodity = [
         'name'              => 'required|max_length[60]',
-        'type' => 'required',
+        'typeLahan' => 'required',
     ];
 
     public array $create_commodity_errors = [
@@ -133,7 +133,7 @@ class Validation extends BaseConfig
             'required'      => 'Nama komoditas harus diisi',
             'max_length'    => 'Nama komoditas tidak boleh lebih dari 60 karakter',
         ],
-        'type' => [
+        'typeLahan' => [
             'required' => 'Tipe lahan harus ada',
         ],
     ];

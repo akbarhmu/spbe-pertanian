@@ -49,11 +49,6 @@ class CreateReportsTable extends Migration
                 'constraint' => 10,
                 'null' => false,
             ],
-            'tipe_komoditas' => [
-                'type' => 'VARCHAR',
-                'constraint' => 100,
-                'null' => false,
-            ],
             'luas' => [
                 'type' => 'INT',
                 'constraint' => 10,
