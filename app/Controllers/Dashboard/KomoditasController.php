@@ -12,6 +12,7 @@ class KomoditasController extends BaseController
         helper('form', 'form_helper');
         $commodities = new CommodityModel();
         $data["commodities"] = $commodities->findAll();
+        $data["typeLahans"] = ["Sawah", "Tegal"];
         return view('commodity/index.php', $data);
     }
 
@@ -25,10 +26,10 @@ class KomoditasController extends BaseController
             return redirect()->back()->withInput();
         } else {
             $validatedData = $validation->getValidated();
-
             $commodities = new CommodityModel();
             $commodities->insert([
-                'name' => $validatedData['name']
+                'name' => $validatedData['name'],
+                'type' => $validatedData['typeLahan'],
             ]);
             session()->setFlashdata('alert_message', [
                 'type' => 'success',

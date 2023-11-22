@@ -13,8 +13,7 @@ Komoditas
                 <p class="text-subtitle text-muted">Data Komoditas</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-last text-end">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#createCommodityModal">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCommodityModal">
                     <i class="badge-circle font-medium-1 text-white" data-feather="plus"></i>
                     Tambah Komoditas
                 </button>
@@ -36,16 +35,15 @@ Komoditas
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($commodities as $row){ ?>
+                        <?php foreach ($commodities as $row) { ?>
                             <tr>
                                 <td>1</td>
                                 <td><?php echo $row['name'];  ?></>
                                 <td>
-                                    <button type="button" class="btn icon" data-bs-toggle="modal"
-                                        data-bs-target="#editCommodityModal<?=$row['id']?>">
+                                    <button type="button" class="btn icon" data-bs-toggle="modal" data-bs-target="#editCommodityModal<?= $row['id'] ?>">
                                         <i class="badge-circle font-medium-1 text-primary" data-feather="edit"></i>
                                     </button>
-                                    <form action="<?=route_to('komoditas.destroy', $row['id'])?>" method="post" class="d-inline">
+                                    <form action="<?= route_to('komoditas.destroy', $row['id']) ?>" method="post" class="d-inline">
                                         <?= csrf_field() ?>
                                         <input type="hidden" name="_method" value="DELETE">
                                         <button type="submit" class="btn icon text-danger">
@@ -54,11 +52,10 @@ Komoditas
                                     </form>
 
                                     <!-- Edit Modal -->
-                                    <div class="modal fade" id="editCommodityModal<?=$row['id']?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
-                                            role="document">
+                                    <div class="modal fade" id="editCommodityModal<?= $row['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
                                             <div class="modal-content">
-                                                <form action="<?=route_to('komoditas.update', $row['id'])?>" method="POST">
+                                                <form action="<?= route_to('komoditas.update', $row['id']) ?>" method="POST">
                                                     <?= csrf_field() ?>
                                                     <input type="hidden" name="_method" value="PUT">
                                                     <div class="modal-header">
@@ -98,10 +95,9 @@ Komoditas
         <!-- Modal -->
 
         <div class="modal fade" id="createCommodityModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
-                role="document">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
-                    <form action="<?=route_to('komoditas.store')?>" method="POST">
+                    <form action="<?= route_to('komoditas.store') ?>" method="POST">
                         <?= csrf_field() ?>
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Komoditas</h5>
@@ -113,6 +109,14 @@ Komoditas
                             <div class="form-group is-required">
                                 <label for="name">Nama Komoditas</label>
                                 <?= form_input_with_validation(type: "text", id: "name", required: true, placeholder: "Masukkan nama komoditas") ?>
+                            </div>
+                            <div class="form-group is-required">
+                                <label for="typeLahan">Tipe Lahan</label>
+                                <select id="typeLahan" name="typeLahan" class="form-select <?= (isset(validation_errors()['typeLahan'])) ? 'is-invalid' : '' ?>" required>
+                                    <?php foreach ($typeLahans as $typeLahan) : ?>
+                                        <option value=<?= $typeLahan ?> <?= ($typeLahan == old('typeLahan') ? 'selected' : '') ?>><?= $typeLahan ?></option>
+                                    <?php endforeach ?>
+                                </select>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -133,12 +137,12 @@ Komoditas
 </div>
 <?= $this->endSection() ?>
 <?= $this->section('styles') ?>
-    <link rel="stylesheet" href="/assets/vendors/simple-datatables/style.css">
+<link rel="stylesheet" href="/assets/vendors/simple-datatables/style.css">
 <?= $this->endSection() ?>
 <?= $this->section('script') ?>
-    <script src="/assets/vendors/simple-datatables/simple-datatables.js"></script>
-    <script>
-        let table1 = document.querySelector('#table1');
-        let dataTable = new simpleDatatables.DataTable(table1);
-    </script>
+<script src="/assets/vendors/simple-datatables/simple-datatables.js"></script>
+<script>
+    let table1 = document.querySelector('#table1');
+    let dataTable = new simpleDatatables.DataTable(table1);
+</script>
 <?= $this->endSection() ?>
