@@ -120,24 +120,34 @@ Dashboard
                                 <table class='table mb-0' id="table1">
                                     <thead>
                                         <tr>
-                                            <th>No.</th>
-                                            <th>Kecamatan</th>
+                                            <th rowspan="2">No.</th>
+                                            <th rowspan="2">Kecamatan</th>
                                             <?php foreach ($months as $month) : ?>
-                                                <th><?= $month ?></th>
+                                                <th colspan="2"><?= $month ?></th>
                                             <?php endforeach ?>
-                                            <th>Total</th>
+                                            <th rowspan="2">Total</th>
+                                        </tr>
+
+                                        <tr>
+                                            <?php foreach ($months as $month) : ?>
+                                                <th>Sawah</th>
+                                                <th>Tegal</th>
+                                            <?php endforeach ?>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <!-- <td>Graiden</td>
-                                                        <td>vehicula.aliquet@semconsequat.co.uk</td>
-                                                        <td>076 4820 8838</td>
-                                                        <td>Offenburg</td>
-                                                        <td>
-                                                            <span class="badge bg-success">Active</span> -->
-                                            </td>
-                                        </tr>
+                                        <?php $i = 1 ?>
+                                        <?php foreach ($kecamatans as $kecamatan) : ?>
+                                            <tr>
+                                                <td>
+                                                    <?= $i;
+                                                    $i++ ?>
+                                                </td>
+                                                <td>
+                                                    <?= $kecamatan["nm_kec"] ?>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach ?>
                                     </tbody>
                                 </table>
                             </div>

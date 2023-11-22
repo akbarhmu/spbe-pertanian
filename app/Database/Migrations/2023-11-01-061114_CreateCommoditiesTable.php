@@ -21,6 +21,10 @@ class CreateCommoditiesTable extends Migration
                 'constraint' => 100,
                 'null' => false,
             ],
+            'type' => [
+                'type' => 'ENUM',
+                'constraint' => ['Sawah', 'Tegal'],
+            ],
             'created_at' => [
                 'type' => 'TIMESTAMP',
                 'default' => new Time('now', 'Asia/Jakarta', 'id_ID'),
