@@ -105,6 +105,19 @@ Formulir Lahan Desa
                                     </div>
                                 </div>
 
+                                <div class="col-12 mt-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6>Komoditas Unggulan</h6>
+                                        <d class="d-flex">
+                                            <button type="button" class="btn btn-icon btn-sm text-primary" data-bs-toggle="modal" data-bs-target="#addCommodityFieldModal">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </d>
+                                    </div>
+                                </div>
+
+                                <div id="inputArea"></div>
+
                                 <div class="clearfix">
                                     <button class="btn btn-primary float-end">Submit</button>
                                 </div>
@@ -115,4 +128,74 @@ Formulir Lahan Desa
         </div>
     </div>
 </div>
+
+<!-- Add Commodity Field Modal -->
+
+<div class="modal fade" id="addCommodityFieldModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
+        role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Input Komoditas</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="commodity">Komoditas</label>
+                    <select class="form-select" id="commodity">
+                        <option value="">Pilih Jenis Tanaman</option>
+                        <?php foreach($commodities as $row) { ?>
+                            <option value="<?=$row['id']?>"><?=$row['name']?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                    <i class="bx bx-x d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">Batal</span>
+                </button>
+                <button type="button" class="btn btn-primary ml-1" onclick="addCommodityField()">
+                    <i class="bx bx-check d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">Tambah</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<?= $this->endSection() ?>
+
+<?= $this->section('script') ?>
+<script>
+    function addCommodityField() {
+        var commodityId = document.getElementById('commodity').value;
+        var commodityName = document.getElementById('commodity').options[document.getElementById('commodity').selectedIndex].text;
+        var inputArea = document.getElementById('inputArea');
+
+        if (commodityId == '') {
+            alert('Pilih komoditas terlebih dahulu');
+            return;
+        }
+        
+        var newDiv = document.createElement('div');
+        newDiv.setAttribute('class', 'row');
+        newDiv.innerHTML = `
+            <div class="col-12">
+                <div class="form-group is-required">
+                    <label for="">Luas Tanaman `+commodityName+` Lahan</label>
+                    <div class="input-group is-required">
+                        <input type="number" name="lahan[`+commodityId+`]" class="form-control" placeholder="Isi luas tanah dalam satuan (Ha)" required>
+                        <button class="btn btn-danger" type="button" onclick="this.parentElement.parentElement.remove()">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        inputArea.appendChild(newDiv);
+        $('#addCommodityFieldModal').modal('hide');
+    }
+</script>
 <?= $this->endSection() ?>
