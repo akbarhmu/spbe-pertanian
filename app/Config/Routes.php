@@ -21,6 +21,12 @@ $routes->post('/logout', 'Auth::logout', ['as' => 'user.logout', 'filter' => 'au
 
 $routes->group('dashboard', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'Dashboard\HomeController::index', ['as' => 'dashboard']);
+
+    // Master Komoditas
+    $routes->get('komoditas', 'Dashboard\KomoditasController::index', ['as' => 'komoditas.index']);
+    $routes->post('komoditas', 'Dashboard\KomoditasController::store', ['as' => 'komoditas.store']);
+    $routes->put('komoditas/(:num)', 'Dashboard\KomoditasController::update/$1', ['as' => 'komoditas.update']);
+    $routes->delete('komoditas/(:num)', 'Dashboard\KomoditasController::destroy/$1', ['as' => 'komoditas.destroy']);
 });
 
 $routes->get('/formulir', 'Report::index');
