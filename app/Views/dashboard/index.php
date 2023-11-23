@@ -81,7 +81,7 @@ Dashboard
                         </div>
                     </div> -->
             <div class="row mb-4">
-                <div class="col-md-8">
+                <div class="col">
                     <div class="card">
                         <div class="card-header">
                             <h3 class='card-heading p-1 pl-3'>Sales</h3>
