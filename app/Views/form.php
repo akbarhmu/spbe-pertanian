@@ -68,42 +68,27 @@ Formulir Lahan Desa
                                         <?= validation_show_error('kelurahan', 'single_error') ?>
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <div class="form-group is-required">
-                                        <label for="lahan[Padi Lahan Sawah]">Luas Tanaman Padi Lahan Sawah</label>
-                                        <?= form_input_with_validation(type: "text", id: "lahan[Padi Lahan Sawah]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
+                                <?php foreach($mandatoryCommodities as $mandatoryCommodity) { ?>
+                                    <div class="col-12">
+                                        <div class="form-group is-required">
+                                            <label for="lahan[<?=$mandatoryCommodity['id']?>]">Luas Tanaman <?=$mandatoryCommodity['name']?> Lahan <?=$mandatoryCommodity['type']?></label>
+                                            <?= form_input_with_validation(type: "text", id: "lahan[".$mandatoryCommodity['id']."]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+
+                                <div class="col-12 mt-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6>Komoditas Unggulan</h6>
+                                        <d class="d-flex">
+                                            <button type="button" class="btn btn-icon btn-sm text-primary" data-bs-toggle="modal" data-bs-target="#addCommodityFieldModal">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </d>
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <div class="form-group is-required">
-                                        <label for="lahan[Padi Lahan Tegal]">Luas Tanaman Padi Lahan Tegal</label>
-                                        <?= form_input_with_validation(type: "text", id: "lahan[Padi Lahan Tegal]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group is-required">
-                                        <label for="lahan[Jagung Lahan Sawah]">Luas Tanaman Jagung Lahan Sawah</label>
-                                        <?= form_input_with_validation(type: "text", id: "lahan[Jagung Lahan Sawah]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group is-required">
-                                        <label for="lahan[Jagung Lahan Tegal]">Luas Tanaman Jagung Lahan Tegal</label>
-                                        <?= form_input_with_validation(type: "text", id: "lahan[Jagung Lahan Tegal]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group is-required">
-                                        <label for="lahan[Kedelai Lahan Sawah]">Luas Tanaman Kedelai Lahan Sawah</label>
-                                        <?= form_input_with_validation(type: "text", id: "lahan[Kedelai Lahan Sawah]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group is-required">
-                                        <label for="lahan[Kedelai Lahan Tegal]">Luas Tanaman Kedelai Lahan Tegal</label>
-                                        <?= form_input_with_validation(type: "text", id: "lahan[Kedelai Lahan Tegal]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
-                                    </div>
-                                </div>
+
+                                <div id="inputArea"></div>
 
                                 <div class="clearfix">
                                     <button class="btn btn-primary float-end">Submit</button>
@@ -115,4 +100,74 @@ Formulir Lahan Desa
         </div>
     </div>
 </div>
+
+<!-- Add Commodity Field Modal -->
+
+<div class="modal fade" id="addCommodityFieldModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
+        role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Input Komoditas</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="commodity">Komoditas</label>
+                    <select class="form-select" id="commodity">
+                        <option value="">Pilih Jenis Tanaman</option>
+                        <?php foreach($commodities as $row) { ?>
+                            <option value="<?=$row['id']?>"><?=$row['name']?> Lahan <?=$row['type']?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                    <i class="bx bx-x d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">Batal</span>
+                </button>
+                <button type="button" class="btn btn-primary ml-1" onclick="addCommodityField()">
+                    <i class="bx bx-check d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">Tambah</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<?= $this->endSection() ?>
+
+<?= $this->section('script') ?>
+<script>
+    function addCommodityField() {
+        var commodityId = document.getElementById('commodity').value;
+        var commodityName = document.getElementById('commodity').options[document.getElementById('commodity').selectedIndex].text;
+        var inputArea = document.getElementById('inputArea');
+
+        if (commodityId == '') {
+            alert('Pilih komoditas terlebih dahulu');
+            return;
+        }
+
+        var newDiv = document.createElement('div');
+        newDiv.setAttribute('class', 'row');
+        newDiv.innerHTML = `
+            <div class="col-12">
+                <div class="form-group is-required">
+                    <label for="">Luas Tanaman `+commodityName+`</label>
+                    <div class="input-group is-required">
+                        <input type="number" name="lahan[`+commodityId+`]" class="form-control" placeholder="Isi luas tanah dalam satuan (Ha)" required>
+                        <button class="btn btn-danger" type="button" onclick="this.parentElement.parentElement.remove()">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        inputArea.appendChild(newDiv);
+        $('#addCommodityFieldModal').modal('hide');
+    }
+</script>
 <?= $this->endSection() ?>
