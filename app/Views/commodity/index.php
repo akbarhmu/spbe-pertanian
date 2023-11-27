@@ -31,15 +31,19 @@ Komoditas
                         <tr>
                             <th>#</th>
                             <th>Nama Komoditas</th>
+                            <th>Tipe Komoditas</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php $i = 1 ?>
                         <?php foreach ($commodities as $row) { ?>
                             <tr>
-                                <td>1</td>
-                                <td><?php echo $row['name'];  ?></>
+                                <td><?= $i ?></td>
+                                <td><?php echo $row['name'];  ?></td>
+                                <td><?= $row['type'] ?></td>
                                 <td>
+                                    <?php $i++ ?>
                                     <button type="button" class="btn icon" data-bs-toggle="modal" data-bs-target="#editCommodityModal<?= $row['id'] ?>">
                                         <i class="badge-circle font-medium-1 text-primary" data-feather="edit"></i>
                                     </button>

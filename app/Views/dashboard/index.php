@@ -152,15 +152,15 @@ Dashboard
                                                 </td>
                                                 <?php foreach ($months as $month) : ?>
                                                     <?php
-                                                    $reports->where('nm_kec', $kecamatan["nm_kec"])->where('bulan', $month)->get()->getResultArray();
+                                                    $rep = $reports->where('nm_kec', $kecamatan["nm_kec"])->where('bulan', $month)->get()->getResultArray();
 
-                                                    dd($reports)
+                                                    // dd($reports)
                                                     ?>
                                                     <td>
-                                                        <?= $sawah['luas'] ?>
+
                                                     </td>
                                                     <td>
-                                                        <?= $tegal['luas'] ?>
+
                                                     </td>
                                                 <?php endforeach ?>
                                             </tr>
