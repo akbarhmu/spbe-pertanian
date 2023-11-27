@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/dashboard') ?>
 <?= $this->section('page_title') ?>
-Dashboard
+Tanaman <?= $komoditas ?> Kabupaten Malang
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -10,86 +10,16 @@ Dashboard
 <div class="main-content container-fluid">
     <div class="page-title">
         <h3>Dashboard</h3>
-        <p class="text-subtitle text-muted">A good dashboard to display your statistics</p>
     </div>
     <section class="section">
         <div class="row mb-2">
-            <!-- <div class="col-12 col-md-3">
-                            <div class="card card-statistic">
-                                <div class="card-body p-0">
-                                    <div class="d-flex flex-column">
-                                        <div class='px-3 py-3 d-flex justify-content-between'>
-                                            <h3 class='card-title'>BALANCE</h3>
-                                            <div class="card-right d-flex align-items-center">
-                                                <p>$50 </p>
-                                            </div>
-                                        </div>
-                                        <div class="chart-wrapper">
-                                            <canvas id="canvas1" style="height:100px !important"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <div class="card card-statistic">
-                                <div class="card-body p-0">
-                                    <div class="d-flex flex-column">
-                                        <div class='px-3 py-3 d-flex justify-content-between'>
-                                            <h3 class='card-title'>Revenue</h3>
-                                            <div class="card-right d-flex align-items-center">
-                                                <p>$532,2 </p>
-                                            </div>
-                                        </div>
-                                        <div class="chart-wrapper">
-                                            <canvas id="canvas2" style="height:100px !important"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <div class="card card-statistic">
-                                <div class="card-body p-0">
-                                    <div class="d-flex flex-column">
-                                        <div class='px-3 py-3 d-flex justify-content-between'>
-                                            <h3 class='card-title'>ORDERS</h3>
-                                            <div class="card-right d-flex align-items-center">
-                                                <p>1,544 </p>
-                                            </div>
-                                        </div>
-                                        <div class="chart-wrapper">
-                                            <canvas id="canvas3" style="height:100px !important"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <div class="card card-statistic">
-                                <div class="card-body p-0">
-                                    <div class="d-flex flex-column">
-                                        <div class='px-3 py-3 d-flex justify-content-between'>
-                                            <h3 class='card-title'>Sales Today</h3>
-                                            <div class="card-right d-flex align-items-center">
-                                                <p>423 </p>
-                                            </div>
-                                        </div>
-                                        <div class="chart-wrapper">
-                                            <canvas id="canvas4" style="height:100px !important"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
             <div class="row mb-4">
                 <div class="col">
-                    <div class="card" style="width: 25rem;">
+                    <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4 class="card-title"> Komoditas Kabupaten Malang </h4>
+                            <h4 class="card-title">Sasaran Areal Tanaman <?= $komoditas ?> (Ha) Kabupaten Malang </h4>
                             <div class="d-flex ">
-
+                                <i data-feather="download"></i>
                             </div>
                         </div>
                         <div class="card-body px-0 pb-0">
@@ -97,13 +27,24 @@ Dashboard
                                 <table class='table mb-0' id="table1">
                                     <thead>
                                         <tr>
-                                            <th>No.</th>
-                                            <th>Nama Komoditas</th>
+                                            <th rowspan="2">No.</th>
+                                            <th rowspan="2">Kecamatan</th>
+                                            <?php foreach ($months as $month) : ?>
+                                                <th colspan="2"><?= $month ?></th>
+                                            <?php endforeach ?>
+                                            <th rowspan="2">Total</th>
+                                        </tr>
+
+                                        <tr>
+                                            <?php foreach ($months as $month) : ?>
+                                                <th>Sawah</th>
+                                                <th>Tegal</th>
+                                            <?php endforeach ?>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $i = 1 ?>
-                                        <?php foreach ($komoditas as $komod) : ?>
+                                        <?php foreach ($kecamatans as $kecamatan) : ?>
 
                                             <tr>
                                                 <td>
@@ -111,14 +52,56 @@ Dashboard
                                                     $i++ ?>
                                                 </td>
                                                 <td>
-                                                    <a href="/dashboard/report/<?= $komod['name'] ?>"><?= $komod["name"] ?></a>
+                                                    <?= $kecamatan["nm_kec"] ?>
                                                 </td>
+                                                <?php $totalLuas = 0; ?>
+                                                <?php foreach ($months as $month) : ?>
+                                                    <?php
+                                                    $condSawah = ['nm_kec' => $kecamatan['nm_kec'], 'bulan' => $month, 'name' => $komoditas, 'type' => 'Sawah'];
+                                                    $condTegal = ['nm_kec' => $kecamatan['nm_kec'], 'bulan' => $month, 'name' => $komoditas, 'type' => 'Tegal'];
+                                                    $sawah = $reports->where($condSawah)->get()->getRowArray();
+                                                    $tegal = $reports->where($condTegal)->get()->getRowArray();
+                                                    $luasSawah = !empty($sawah) ? $sawah['luas'] : 0;
+                                                    $luasTegal = !empty($tegal) ? $tegal['luas'] : 0;
+                                                    $totalLuas += $luasTegal + $luasSawah;
+                                                    // dd($kecamatan)
+                                                    ?>
 
+                                                    <td><?= $luasSawah ?></td>
+                                                    <td><?= $luasTegal ?></td>
+                                                <?php endforeach ?>
+                                                <td><?= $totalLuas ?></td>
                                             </tr>
                                         <?php endforeach ?>
 
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class='card-heading p-1 pl-3'>Grafik </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 col-12">
+                                <div class="pl-3">
+                                    <h1 class='mt-5'>$21,102</h1>
+                                    <p class='text-xs'><span class="text-green"><i data-feather="bar-chart" width="15"></i> +19%</span> than last month</p>
+                                    <div class="legends">
+                                        <div class="legend d-flex flex-row align-items-center">
+                                            <div class='w-3 h-3 rounded-full bg-info me-2'></div><span class='text-xs'>Last Month</span>
+                                        </div>
+                                        <div class="legend d-flex flex-row align-items-center">
+                                            <div class='w-3 h-3 rounded-full bg-blue me-2'></div><span class='text-xs'>Current Month</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-12">
+                                <canvas id="bar"></canvas>
                             </div>
                         </div>
                     </div>
