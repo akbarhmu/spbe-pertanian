@@ -18,6 +18,7 @@
     <link rel="shortcut icon" href="/assets/images/favicon.svg" type="image/x-icon">
 </head>
 
+
 <body>
     <div id="app">
         <div id="sidebar" class='active'>

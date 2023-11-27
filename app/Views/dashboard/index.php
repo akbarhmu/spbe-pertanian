@@ -4,6 +4,9 @@ Dashboard
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
+<?php
+// dd($reports->where('nm_kec', 'AMPELGADING')->get()->getResultArray());
+?>
 <div class="main-content container-fluid">
     <div class="page-title">
         <h3>Dashboard</h3>
@@ -81,7 +84,7 @@ Dashboard
                         </div>
                     </div> -->
             <div class="row mb-4">
-                <div class="col-md-8">
+                <div class="col">
                     <div class="card">
                         <div class="card-header">
                             <h3 class='card-heading p-1 pl-3'>Sales</h3>
@@ -138,6 +141,7 @@ Dashboard
                                     <tbody>
                                         <?php $i = 1 ?>
                                         <?php foreach ($kecamatans as $kecamatan) : ?>
+
                                             <tr>
                                                 <td>
                                                     <?= $i;
@@ -146,6 +150,19 @@ Dashboard
                                                 <td>
                                                     <?= $kecamatan["nm_kec"] ?>
                                                 </td>
+                                                <?php foreach ($months as $month) : ?>
+                                                    <?php
+                                                    $reports->where('nm_kec', $kecamatan["nm_kec"])->where('bulan', $month)->get()->getResultArray();
+
+                                                    dd($reports)
+                                                    ?>
+                                                    <td>
+                                                        <?= $sawah['luas'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $tegal['luas'] ?>
+                                                    </td>
+                                                <?php endforeach ?>
                                             </tr>
                                         <?php endforeach ?>
                                     </tbody>
