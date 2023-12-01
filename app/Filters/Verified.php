@@ -26,7 +26,7 @@ class Verified implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         if (session()->get('verified_at') == null) {
-            session()->destroy();
+            log_message('error', 'VerifiedFilter: Akun belum diverifikasi');
             session()->setFlashdata('alert_message', [
                 'type' => 'danger',
                 'message' => 'Akun anda belum diverifikasi. Mohon menunggu konfirmasi admin.',

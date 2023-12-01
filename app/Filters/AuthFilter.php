@@ -26,6 +26,7 @@ class AuthFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         if (!session()->get('isLoggedIn')) {
+            log_message('error', 'AuthFilter: Pengguna belum login');
             session()->setFlashdata('alert_message', [
                 'type' => 'danger',
                 'message' => 'Anda harus login terlebih dahulu.',
@@ -33,6 +34,7 @@ class AuthFilter implements FilterInterface
             ]);
             return redirect()->to('/login');
         }
+        log_message('debug', 'AuthFilter: Pengguna telah login');
     }
 
     /**

@@ -44,6 +44,7 @@ class Auth extends BaseController
                             'email' => $user['email'],
                             'phone_number' => $user['phone_number'],
                             'id_kec' => $user['id_kec'],
+                            'verified_at' => $user['verified_at'],
                             'isLoggedIn' => true
                         ];
     
