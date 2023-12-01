@@ -36,16 +36,19 @@
 
 
 
-                        <li class="sidebar-item active ">
-
-                            <a href="index.html" class='sidebar-link'>
+                        <li class="sidebar-item <?= uri_string() == 'dashboard' ? 'active':'' ?>">
+                            <a href="<?=route_to('dashboard')?>" class='sidebar-link'>
                                 <i data-feather="home" width="20"></i>
                                 <span>Dashboard</span>
                             </a>
-
-
                         </li>
-                        <li class="sidebar-item">
+                        <li class="sidebar-item <?= uri_string() == 'dashboard/komoditas' ? 'active':'' ?>">
+                            <a href="<?=route_to('komoditas.index')?>" class='sidebar-link'>
+                                <i data-feather="feather" width="20"></i>
+                                <span>Komoditas</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item <?= uri_string() == 'dashboard/users' ? 'active':'' ?>">
                             <a href="<?=route_to('users.index')?>" class='sidebar-link'>
                                 <i data-feather="user" width="20"></i>
                                 <span>Pengguna</span>
