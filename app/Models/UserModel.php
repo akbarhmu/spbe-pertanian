@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use CI4Extensions\Database\RelationshipsTrait;
 
 class UserModel extends Model
 {
+    use RelationshipsTrait;
+
     protected $DBGroup          = 'default';
     protected $table            = 'users';
     protected $primaryKey       = 'id';
@@ -38,4 +41,9 @@ class UserModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function initialize()
+    {
+        $this->hasOne('kecamatan', KecamatanModel::class, 'id_kec', 'id_kec');
+    }
 }

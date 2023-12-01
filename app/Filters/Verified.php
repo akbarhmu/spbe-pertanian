@@ -6,7 +6,7 @@ use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class AuthFilter implements FilterInterface
+class Verified implements FilterInterface
 {
     /**
      * Do whatever processing this filter needs to do.
@@ -25,16 +25,15 @@ class AuthFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        if (!session()->get('isLoggedIn')) {
-            log_message('error', 'AuthFilter: Pengguna belum login');
+        if (session()->get('verified_at') == null) {
+            log_message('error', 'VerifiedFilter: Akun belum diverifikasi');
             session()->setFlashdata('alert_message', [
                 'type' => 'danger',
-                'message' => 'Anda harus login terlebih dahulu.',
+                'message' => 'Akun anda belum diverifikasi. Mohon menunggu konfirmasi admin.',
                 'icon' => 'fa-solid fa-xmark'
             ]);
             return redirect()->to('/login');
         }
-        log_message('debug', 'AuthFilter: Pengguna telah login');
     }
 
     /**
