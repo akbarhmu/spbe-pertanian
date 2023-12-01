@@ -30,23 +30,32 @@ class Auth extends BaseController
 
             if ($user) {
                 if (password_verify($validatedData['password'], $user['password'])) {
-                    $data = [
-                        'id' => $user['id'],
-                        'name' => $user['name'],
-                        'email' => $user['email'],
-                        'phone_number' => $user['phone_number'],
-                        'id_kec' => $user['id_kec'],
-                        'isLoggedIn' => true
-                    ];
-
-                    session()->set($data);
-                    session()->setFlashdata('alert_message', [
-                        'type' => 'success',
-                        'message' => 'Login berhasil',
-                        'icon' => 'fa-solid fa-check'
-                    ]);
-
-                    return redirect()->to('/dashboard');
+                    if ($user['verified_at'] == null) {
+                        session()->setFlashdata('alert_message', [
+                            'type' => 'danger',
+                            'message' => 'Akun anda belum diverifikasi. Mohon menunggu konfirmasi admin.',
+                            'icon' => 'fa-solid fa-xmark'
+                        ]);
+                        return redirect()->back();
+                    } else {
+                        $data = [
+                            'id' => $user['id'],
+                            'name' => $user['name'],
+                            'email' => $user['email'],
+                            'phone_number' => $user['phone_number'],
+                            'id_kec' => $user['id_kec'],
+                            'isLoggedIn' => true
+                        ];
+    
+                        session()->set($data);
+                        session()->setFlashdata('alert_message', [
+                            'type' => 'success',
+                            'message' => 'Login berhasil',
+                            'icon' => 'fa-solid fa-check'
+                        ]);
+    
+                        return redirect()->to('/dashboard');
+                    }
                 } else {
                     session()->setFlashdata('alert_message', [
                         'type' => 'danger',
