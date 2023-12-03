@@ -12,7 +12,7 @@ Daftar
                 <div class="card pt-4">
                     <div class="card-body">
                         <div class="text-center mb-5">
-                            <img src="assets/images/logo_diskominfo.png" height="48" class='mb-4'>
+                            <img src="assets/images/logo.png" height=" 48" class='mb-4'>
                             <h3>Daftar Akun</h3>
                             <p>Lengkapi data-data dibawah ini</p>
                         </div>

@@ -45,16 +45,17 @@ class Auth extends BaseController
                             'phone_number' => $user['phone_number'],
                             'id_kec' => $user['id_kec'],
                             'verified_at' => $user['verified_at'],
-                            'isLoggedIn' => true
+                            'isLoggedIn' => true,
+                            'role' => $user['role'],
                         ];
-    
+
                         session()->set($data);
                         session()->setFlashdata('alert_message', [
                             'type' => 'success',
                             'message' => 'Login berhasil',
                             'icon' => 'fa-solid fa-check'
                         ]);
-    
+
                         return redirect()->to('/dashboard');
                     }
                 } else {

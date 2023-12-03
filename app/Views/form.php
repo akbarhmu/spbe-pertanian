@@ -12,7 +12,7 @@ Formulir Lahan Desa
                 <div class="card pt-4">
                     <div class="card-body">
                         <div class="text-center mb-5">
-                            <img src="assets/images/logo_diskominfo.png" height="48" class='mb-4'>
+                            <img src="assets/images/logo.png" height="48" class='mb-4'>
                             <h3>Laporan Mingguan Realisasi UPSUS LTT Tahun 2023 Kabupaten Malang</h3>
                             <p>Lengkapi data-data dibawah ini</p>
                         </div>
@@ -61,10 +61,10 @@ Formulir Lahan Desa
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <?php foreach($mandatoryCommodities as $mandatoryCommodity) { ?>
+                                    <?php foreach ($mandatoryCommodities as $mandatoryCommodity) { ?>
                                         <div class="form-group is-required">
-                                            <label for="lahan[<?=$mandatoryCommodity['id']?>]">Luas Tanaman <?=$mandatoryCommodity['name']?> Lahan <?=$mandatoryCommodity['type']?> (Ha)</label>
-                                            <?= form_input_with_validation(type: "text", id: "lahan[".$mandatoryCommodity['id']."]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
+                                            <label for="lahan[<?= $mandatoryCommodity['id'] ?>]">Luas Tanaman <?= $mandatoryCommodity['name'] ?> Lahan <?= $mandatoryCommodity['type'] ?> (Ha)</label>
+                                            <?= form_input_with_validation(type: "text", id: "lahan[" . $mandatoryCommodity['id'] . "]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
                                         </div>
                                     <?php } ?>
                                 </div>
@@ -95,13 +95,12 @@ Formulir Lahan Desa
 <!-- Add Commodity Field Modal -->
 
 <div class="modal fade" id="addCommodityFieldModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
-        role="document">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Input Komoditas</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                <i data-feather="x"></i>
+                    <i data-feather="x"></i>
                 </button>
             </div>
             <div class="modal-body">
@@ -109,8 +108,8 @@ Formulir Lahan Desa
                     <label for="commodity">Komoditas</label>
                     <select class="form-select" id="commodity">
                         <option value="">Pilih Jenis Tanaman</option>
-                        <?php foreach($commodities as $row) { ?>
-                            <option value="<?=$row['id']?>"><?=$row['name']?> Lahan <?=$row['type']?></option>
+                        <?php foreach ($commodities as $row) { ?>
+                            <option value="<?= $row['id'] ?>"><?= $row['name'] ?> Lahan <?= $row['type'] ?></option>
                         <?php } ?>
                     </select>
                 </div>
@@ -147,10 +146,10 @@ Formulir Lahan Desa
         newDiv.innerHTML = `
             <div class="col-12">
                 <div class="form-group is-required">
-                    <label for="">Luas Tanaman `+commodityName+` (Ha)</label>
+                    <label for="">Luas Tanaman ` + commodityName + ` (Ha)</label>
                     <div class="input-group is-required">
-                        <input type="number" name="lahan[`+commodityId+`]" class="form-control" placeholder="Isi luas tanah dalam satuan (Ha)" required>
-                        <button class="btn btn-danger" type="button" onclick="this.parentElement.parentElement.remove();restoreCommodityOption(`+commodityId+`, '`+commodityName+`');">
+                        <input type="number" name="lahan[` + commodityId + `]" class="form-control" placeholder="Isi luas tanah dalam satuan (Ha)" required>
+                        <button class="btn btn-danger" type="button" onclick="this.parentElement.parentElement.remove();restoreCommodityOption(` + commodityId + `, '` + commodityName + `');">
                             <i class="fas fa-trash"></i> Hapus
                         </button>
                     </div>

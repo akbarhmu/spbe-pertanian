@@ -24,14 +24,23 @@ class HomeController extends BaseController
     public function report($komoditas)
     {
         helper('form', 'form_helper');
+        $request = service('request');
 
         $db = \Config\Database::connect();
         $kec = new KecamatanModel();
 
+        $tahun = $request->getGet('tahun');
+        if (!isset($tahun)) {
+            $data["tahun"] = date('Y');
+        } else {
+            $data["tahun"] = $tahun;
+        }
         $data["kecamatans"] = $kec->orderBy('nm_kec', 'ASC')->findAll();
         $data["reports"] = $db->table('reports_view');
         $data["months"] = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-        $data["komoditas"] = $komoditas;
+        $data['years'] = $db->table('reports_view')->select('year(created_at) as years')->groupBy('year(created_at)')->orderBy('year(created_at) desc')->get()->getResultArray();
+        $data["komoditas"] = $request->getGet('tanaman');
+
         return view('dashboard/report', $data);
     }
 }

@@ -54,18 +54,28 @@
                                 <span>Dashboard</span>
                             </a>
                         </li>
-                        <li class="sidebar-item <?= uri_string() == 'dashboard/komoditas' ? 'active' : '' ?>">
-                            <a href="<?= route_to('komoditas.index') ?>" class='sidebar-link'>
-                                <i data-feather="feather" width="20"></i>
-                                <span>Komoditas</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item <?= uri_string() == 'dashboard/users' ? 'active' : '' ?>">
-                            <a href="<?= route_to('users.index') ?>" class='sidebar-link'>
-                                <i data-feather="user" width="20"></i>
-                                <span>Pengguna</span>
-                            </a>
-                        </li>
+                        <?php if (session()->get('role') == 'admin') : ?>
+                            <li class="sidebar-item <?= uri_string() == 'dashboard/komoditas' ? 'active' : '' ?>">
+                                <a href="<?= route_to('komoditas.index') ?>" class='sidebar-link'>
+                                    <i data-feather="feather" width="20"></i>
+                                    <span>Komoditas</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item <?= uri_string() == 'dashboard/users' ? 'active' : '' ?>">
+                                <a href="<?= route_to('users.index') ?>" class='sidebar-link'>
+                                    <i data-feather="user" width="20"></i>
+                                    <span>Pengguna</span>
+                                </a>
+                            </li>
+                        <?php endif ?>
+                        <?php if (session()->get('role') == 'penyuluh') : ?>
+                            <li class="sidebar-item <?= uri_string() == 'formulir' ? 'active' : '' ?>">
+                                <a href="<?= route_to('formulir') ?>" class='sidebar-link'>
+                                    <i data-feather="clipboard" width="20"></i>
+                                    <span>Formulir</span>
+                                </a>
+                            </li>
+                        <?php endif ?>
                     </ul>
                 </div>
                 <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>

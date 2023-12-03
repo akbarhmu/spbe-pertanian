@@ -22,13 +22,13 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 });
 
 $routes->group('', ['filter' => ['auth', 'verified']], function ($routes) {
-    $routes->get('/formulir', 'Report::index');
+    $routes->get('/formulir', 'Report::index', ['as' => 'formulir']);
     $routes->post('/formulir', 'Report::store', ['as' => 'lahan.store']);
 });
 
 $routes->group('dashboard', ['filter' => ['auth', 'verified']], function ($routes) {
     $routes->get('/', 'Dashboard\HomeController::index', ['as' => 'dashboard']);
-    $routes->get('report/(:any)', 'Dashboard\HomeController::report/$1');
+    $routes->get('report', 'Dashboard\HomeController::report/$1');
 
     // Master Komoditas
     $routes->get('komoditas', 'Dashboard\KomoditasController::index', ['as' => 'komoditas.index']);

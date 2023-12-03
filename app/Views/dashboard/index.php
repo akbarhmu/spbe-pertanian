@@ -127,7 +127,7 @@ Dashboard
                                                 // dd($luasBulan)
                                                 ?>
                                                 <td>
-                                                    <a href="/dashboard/report/<?= $komod['name'] ?>"><?= $komod["name"] ?></a>
+                                                    <a href="/dashboard/report?tanaman=<?= $komod["name"] ?>"><?= $komod["name"] ?></a>
                                                 </td>
                                                 <td><?= $luas['luas'] ?></td>
                                                 <td><?= $luasBulan[0]['luas'] - $luasBulan[1]["luas"] ?></td>

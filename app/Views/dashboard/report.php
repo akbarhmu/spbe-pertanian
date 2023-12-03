@@ -17,8 +17,17 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                 <div class="col">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
+
                             <h4 class="card-title">Sasaran Areal Tanaman <?= $komoditas ?> (Ha) Kabupaten Malang </h4>
                             <div class="d-flex ">
+
+
+                                <select class="form-select">
+                                    <?php foreach ($years as $year) : ?>
+                                        <option><a href="/dashboard/report?tanaman=<?= $komoditas ?>&tahun=<?= $year['years'] ?>"></a><?= $year['years'] ?></option>
+                                    <?php endforeach ?>
+                                </select>
+
                                 <i data-feather="download"></i>
                             </div>
                         </div>
@@ -61,8 +70,8 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                                                     <?php
                                                     $condSawah = ['nm_kec' => $kecamatan['nm_kec'], 'bulan' => $month, 'nama_komoditas' => $komoditas, 'type' => 'Sawah'];
                                                     $condTegal = ['nm_kec' => $kecamatan['nm_kec'], 'bulan' => $month, 'nama_komoditas' => $komoditas, 'type' => 'Tegal'];
-                                                    $sawah = $reports->select('sum(luas) as luas')->where($condSawah)->where('YEAR(created_at)', date('Y'))->get()->getRowArray();
-                                                    $tegal = $reports->select('sum(luas) as luas')->where($condTegal)->where('YEAR(created_at)', date('Y'))->get()->getRowArray();
+                                                    $sawah = $reports->select('sum(luas) as luas')->where($condSawah)->where('YEAR(created_at)', $tahun)->get()->getRowArray();
+                                                    $tegal = $reports->select('sum(luas) as luas')->where($condTegal)->where('YEAR(created_at)', $tahun)->get()->getRowArray();
                                                     $luasSawah = !empty($sawah['luas']) ? $sawah['luas'] : 0;
                                                     $luasTegal = !empty($tegal['luas']) ? $tegal['luas'] : 0;
                                                     $totalLuas += $luasTegal + $luasSawah;
@@ -78,9 +87,9 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                                         <tr>
                                             <td colspan="2">Jumlah</td>
                                             <?php foreach ($months as $month) :
-                                                $jumlahLuasSawah = $reports->where('nama_komoditas', $komoditas)->where('bulan', $month)->where('type', 'Sawah')->where('YEAR(created_at)', date('Y'))
+                                                $jumlahLuasSawah = $reports->where('nama_komoditas', $komoditas)->where('bulan', $month)->where('type', 'Sawah')->where('YEAR(created_at)', $tahun)
                                                     ->select('COALESCE(SUM(luas), 0) as luas')->get()->getRowArray();
-                                                $jumlahLuasTegal = $reports->where('nama_komoditas', $komoditas)->where('bulan', $month)->where('type', 'Tegal')->where('YEAR(created_at)', date('Y'))
+                                                $jumlahLuasTegal = $reports->where('nama_komoditas', $komoditas)->where('bulan', $month)->where('type', 'Tegal')->where('YEAR(created_at)', $tahun)
                                                     ->select('COALESCE(SUM(luas), 0) as luas')->get()->getRowArray();
                                             ?>
                                                 <td><?= $jumlahLuasSawah['luas'] ?></td>
@@ -120,7 +129,7 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                                 <?php
                                 foreach ($months as $month) {
                                     $cond = ['bulan' => $month, 'nama_komoditas' => $komoditas];
-                                    $luas[] = $reports->where($cond)->where('YEAR(created_at)', date('Y'))->select('COALESCE(SUM(luas), 0) as luas')->get()->getRowArray();
+                                    $luas[] = $reports->where($cond)->where('YEAR(created_at)', $tahun)->select('COALESCE(SUM(luas), 0) as luas')->get()->getRowArray();
                                 }
                                 ?>
                                 <script>
