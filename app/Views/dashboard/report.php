@@ -27,12 +27,12 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                                 <table class='table mb-0' id="table1">
                                     <thead>
                                         <tr>
-                                            <th rowspan="2">No.</th>
-                                            <th rowspan="2">Kecamatan</th>
+                                            <th style="text-align:center" rowspan="2">No.</th>
+                                            <th style="text-align:center" rowspan="2">Kecamatan</th>
                                             <?php foreach ($months as $month) : ?>
-                                                <th colspan="2"><?= $month ?></th>
+                                                <th colspan="2" style="text-align:center"><?= $month ?></th>
                                             <?php endforeach ?>
-                                            <th rowspan="2">Total</th>
+                                            <th rowspan="2" style="text-align:center">Total</th>
                                         </tr>
 
                                         <tr>
@@ -44,6 +44,7 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                                     </thead>
                                     <tbody>
                                         <?php $i = 1 ?>
+                                        <?php $jumlahTotal = 0 ?>
                                         <?php foreach ($kecamatans as $kecamatan) : ?>
 
                                             <tr>
@@ -55,24 +56,38 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                                                     <?= $kecamatan["nm_kec"] ?>
                                                 </td>
                                                 <?php $totalLuas = 0; ?>
+
                                                 <?php foreach ($months as $month) : ?>
                                                     <?php
-                                                    $condSawah = ['nm_kec' => $kecamatan['nm_kec'], 'bulan' => $month, 'name' => $komoditas, 'type' => 'Sawah'];
-                                                    $condTegal = ['nm_kec' => $kecamatan['nm_kec'], 'bulan' => $month, 'name' => $komoditas, 'type' => 'Tegal'];
-                                                    $sawah = $reports->where($condSawah)->get()->getRowArray();
-                                                    $tegal = $reports->where($condTegal)->get()->getRowArray();
-                                                    $luasSawah = !empty($sawah) ? $sawah['luas'] : 0;
-                                                    $luasTegal = !empty($tegal) ? $tegal['luas'] : 0;
+                                                    $condSawah = ['nm_kec' => $kecamatan['nm_kec'], 'bulan' => $month, 'nama_komoditas' => $komoditas, 'type' => 'Sawah'];
+                                                    $condTegal = ['nm_kec' => $kecamatan['nm_kec'], 'bulan' => $month, 'nama_komoditas' => $komoditas, 'type' => 'Tegal'];
+                                                    $sawah = $reports->select('sum(luas) as luas')->where($condSawah)->where('YEAR(created_at)', date('Y'))->get()->getRowArray();
+                                                    $tegal = $reports->select('sum(luas) as luas')->where($condTegal)->where('YEAR(created_at)', date('Y'))->get()->getRowArray();
+                                                    $luasSawah = !empty($sawah['luas']) ? $sawah['luas'] : 0;
+                                                    $luasTegal = !empty($tegal['luas']) ? $tegal['luas'] : 0;
                                                     $totalLuas += $luasTegal + $luasSawah;
-                                                    // dd($kecamatan)
                                                     ?>
 
                                                     <td><?= $luasSawah ?></td>
                                                     <td><?= $luasTegal ?></td>
-                                                <?php endforeach ?>
+                                                <?php endforeach;
+                                                $jumlahTotal += $totalLuas; ?>
                                                 <td><?= $totalLuas ?></td>
                                             </tr>
                                         <?php endforeach ?>
+                                        <tr>
+                                            <td colspan="2">Jumlah</td>
+                                            <?php foreach ($months as $month) :
+                                                $jumlahLuasSawah = $reports->where('nama_komoditas', $komoditas)->where('bulan', $month)->where('type', 'Sawah')->where('YEAR(created_at)', date('Y'))
+                                                    ->select('COALESCE(SUM(luas), 0) as luas')->get()->getRowArray();
+                                                $jumlahLuasTegal = $reports->where('nama_komoditas', $komoditas)->where('bulan', $month)->where('type', 'Tegal')->where('YEAR(created_at)', date('Y'))
+                                                    ->select('COALESCE(SUM(luas), 0) as luas')->get()->getRowArray();
+                                            ?>
+                                                <td><?= $jumlahLuasSawah['luas'] ?></td>
+                                                <td><?= $jumlahLuasTegal['luas'] ?></td>
+                                            <?php endforeach ?>
+                                            <td><?= $jumlahTotal ?></td>
+                                        </tr>
 
                                     </tbody>
                                 </table>
@@ -88,7 +103,7 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                         <div class="row">
                             <div class="col-md-4 col-12">
                                 <div class="pl-3">
-                                    <h1 class='mt-5'>$21,102</h1>
+                                    <h1 class='mt-5'><?= $jumlahTotal ?> (Ha)</h1>
                                     <p class='text-xs'><span class="text-green"><i data-feather="bar-chart" width="15"></i> +19%</span> than last month</p>
                                     <div class="legends">
                                         <div class="legend d-flex flex-row align-items-center">
@@ -102,6 +117,73 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                             </div>
                             <div class="col-md-8 col-12">
                                 <canvas id="bar"></canvas>
+                                <?php
+                                foreach ($months as $month) {
+                                    $cond = ['bulan' => $month, 'nama_komoditas' => $komoditas];
+                                    $luas[] = $reports->where($cond)->where('YEAR(created_at)', date('Y'))->select('COALESCE(SUM(luas), 0) as luas')->get()->getRowArray();
+                                }
+                                ?>
+                                <script>
+                                    var ctxBar = document.getElementById('bar').getContext('2d');
+                                    var chartLabels = <?= json_encode($months); ?>;
+                                    var data = <?= json_encode(array_column($luas, 'luas')) ?>;
+                                    var chartData = data;
+
+                                    var maxValue = Math.max(...data);
+                                    var minValue = Math.min(...data);
+
+                                    var backgroundColors = chartData.map(function(value) {
+                                        if (value === maxValue) {
+                                            return chartColors.green; // Warna hijau untuk nilai tertinggi
+                                        } else if (value === minValue) {
+                                            return chartColors.red; // Warna merah untuk nilai terendah
+                                        } else {
+                                            return chartColors.grey; // Warna abu-abu untuk nilai lainnya
+                                        }
+                                    });
+                                    setTimeout(function() {
+                                        var myBar = new Chart(ctxBar, {
+                                            type: 'bar',
+                                            data: {
+                                                labels: chartLabels,
+                                                datasets: [{
+                                                    label: 'Total Luas',
+                                                    backgroundColor: backgroundColors,
+                                                    data: chartData,
+                                                }],
+                                            },
+                                            options: {
+                                                responsive: true,
+                                                barRoundness: 1,
+                                                title: {
+                                                    display: false,
+                                                    text: 'Chart.js - Bar Chart with Rounded Tops (drawRoundedTopRectangle Method)',
+                                                },
+                                                legend: {
+                                                    display: false,
+                                                },
+                                                scales: {
+                                                    yAxes: [{
+                                                        ticks: {
+                                                            beginAtZero: true,
+                                                            suggestedMax: 40 + 20,
+                                                            padding: 10,
+                                                        },
+                                                        gridLines: {
+                                                            drawBorder: false,
+                                                        },
+                                                    }],
+                                                    xAxes: [{
+                                                        gridLines: {
+                                                            display: false,
+                                                            drawBorder: false,
+                                                        },
+                                                    }],
+                                                },
+                                            },
+                                        });
+                                    }, 1000);
+                                </script>
                             </div>
                         </div>
                     </div>

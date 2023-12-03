@@ -6,6 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
 
+    <style>
+        td {
+            text-align: center
+        }
+
+        th {
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
     <link rel="stylesheet" href="/assets/css/bootstrap.css">
 
     <?= $this->renderSection('styles') ?>
@@ -15,7 +25,8 @@
     <link rel="stylesheet" href="/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="/assets/css/app.css">
     <link rel="stylesheet" href="/assets/css/custom.css">
-    <link rel="shortcut icon" href="/assets/images/favicon.svg" type="image/x-icon">
+    <link rel="shortcut icon" href="/assets/images/logo.svg" type="image/x-icon">
+    <script src="/assets/js/pages/dashboard.js"></script>
 </head>
 
 
@@ -24,9 +35,10 @@
         <div id="sidebar" class='active'>
             <div class="sidebar-wrapper active">
                 <div class="sidebar-header">
-                    <img src="/assets/images/logo.svg" alt="" srcset="">
+                    <img src="/assets/images/logo.png" alt="">
                 </div>
-                <div class="sidebar-menu">
+
+                <div class=" sidebar-menu">
                     <ul class="menu">
 
 
@@ -127,7 +139,7 @@
 
     <script src="/assets/vendors/chartjs/Chart.min.js"></script>
     <script src="/assets/vendors/apexcharts/apexcharts.min.js"></script>
-    <script src="/assets/js/pages/dashboard.js"></script>
+
 
     <script src="/assets/js/main.js"></script>
 

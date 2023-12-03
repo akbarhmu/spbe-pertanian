@@ -85,7 +85,7 @@ Dashboard
                     </div> -->
             <div class="row mb-4">
                 <div class="col">
-                    <div class="card" style="width: 25rem;">
+                    <div class="card" style="width: 40rem;">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4 class="card-title"> Komoditas Kabupaten Malang </h4>
                             <div class="d-flex ">
@@ -99,6 +99,9 @@ Dashboard
                                         <tr>
                                             <th>No.</th>
                                             <th>Nama Komoditas</th>
+                                            <th>Jumlah Luas Terakhir (Ha)</th>
+                                            <th>Perubahan (Ha)</th>
+                                            <th>Perubahan (%)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -110,10 +113,24 @@ Dashboard
                                                     <?= $i;
                                                     $i++ ?>
                                                 </td>
+                                                <?php
+                                                $month = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+                                                $luas = $reports->where('nama_komoditas', $komod['name'])->where('YEAR(created_at)', date('Y'))->select('COALESCE(SUM(luas), 0) as luas')->get()->getRowArray();
+                                                if (date('m') == 1) {
+                                                    $luasBulan[0] = $reports->where('nama_komoditas', $komod['name'])->where('bulan', $month[date('m') - 1])->where('YEAR(created_at)', date('Y'))->select('COALESCE(SUM(luas), 0) as luas')->get()->getRowArray();
+                                                    $luasBulan[1] = $reports->where('nama_komoditas', $komod['name'])->where('bulan', $month[11])->where('YEAR(created_at)', date('Y') - 1)->select('COALESCE(SUM(luas), 0) as luas')->get()->getRowArray();
+                                                } else {
+                                                    $luasBulan[0] = $reports->where('nama_komoditas', $komod['name'])->where('bulan', $month[date('m') - 1])->where('YEAR(created_at)', date('Y'))->select('COALESCE(SUM(luas), 0) as luas')->get()->getRowArray();
+                                                    $luasBulan[1] = $reports->where('nama_komoditas', $komod['name'])->where('bulan', $month[date('m') - 2])->where('YEAR(created_at)', date('Y'))->select('COALESCE(SUM(luas), 0) as luas')->get()->getRowArray();
+                                                }
+
+                                                // dd($luasBulan)
+                                                ?>
                                                 <td>
                                                     <a href="/dashboard/report/<?= $komod['name'] ?>"><?= $komod["name"] ?></a>
                                                 </td>
-
+                                                <td><?= $luas['luas'] ?></td>
+                                                <td><?= $luasBulan[0]['luas'] - $luasBulan[1]["luas"] ?></td>
                                             </tr>
                                         <?php endforeach ?>
 

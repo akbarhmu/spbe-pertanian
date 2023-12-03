@@ -13,8 +13,11 @@ class HomeController extends BaseController
     {
         $db = \Config\Database::connect();
         helper('form', 'form_helper');
+        $report = new ReportModel();
         $komoditas = new CommodityModel();
-        $data["komoditas"] = $komoditas->select('name')->groupBy('name')->findAll();
+        $data["komoditas"] = $komoditas->select('name,created_at')->groupBy('name,created_at')->findAll();
+        $data["reports"] = $db->table('reports_view');
+
 
         return view('dashboard/index', $data);
     }
