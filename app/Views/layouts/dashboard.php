@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title><?= $this->renderSection('page_title') ?> | Dashboard</title>
 
     <style>
         td {
@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="/assets/css/app.css">
     <link rel="stylesheet" href="/assets/css/custom.css">
     <link rel="shortcut icon" href="/assets/images/logo.svg" type="image/x-icon">
+
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css" rel="stylesheet">
     <script src="/assets/js/pages/dashboard.js"></script>
 </head>
 
@@ -46,14 +48,23 @@
 
 
 
-                        <li class="sidebar-item active ">
-
-                            <a href="index.html" class='sidebar-link'>
+                        <li class="sidebar-item <?= uri_string() == 'dashboard' ? 'active' : '' ?>">
+                            <a href="<?= route_to('dashboard') ?>" class='sidebar-link'>
                                 <i data-feather="home" width="20"></i>
                                 <span>Dashboard</span>
                             </a>
-
-
+                        </li>
+                        <li class="sidebar-item <?= uri_string() == 'dashboard/komoditas' ? 'active' : '' ?>">
+                            <a href="<?= route_to('komoditas.index') ?>" class='sidebar-link'>
+                                <i data-feather="feather" width="20"></i>
+                                <span>Komoditas</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item <?= uri_string() == 'dashboard/users' ? 'active' : '' ?>">
+                            <a href="<?= route_to('users.index') ?>" class='sidebar-link'>
+                                <i data-feather="user" width="20"></i>
+                                <span>Pengguna</span>
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -142,6 +153,39 @@
 
 
     <script src="/assets/js/main.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script>
+
+    <script>
+        <?php if (session()->has("success")) { ?>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '<?= session("success") ?>'
+            })
+        <?php } ?>
+        <?php if (session()->has("error")) { ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi Kesalahan!',
+                text: '<?= session("error") ?>'
+            })
+        <?php } ?>
+        <?php if (session()->has("warning")) { ?>
+            Swal.fire({
+                icon: 'warning',
+                title: 'Peringatan!',
+                text: '<?= session("warning") ?>'
+            })
+        <?php } ?>
+        <?php if (session()->has("info")) { ?>
+            Swal.fire({
+                icon: 'info',
+                title: 'Informasi!',
+                text: '<?= session("info") ?>'
+            })
+        <?php } ?>
+    </script>
 
     <?= $this->renderSection('script') ?>
 </body>

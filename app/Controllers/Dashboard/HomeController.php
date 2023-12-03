@@ -28,7 +28,7 @@ class HomeController extends BaseController
         $db = \Config\Database::connect();
         $kec = new KecamatanModel();
 
-        $data["kecamatans"] = $kec->findAll();
+        $data["kecamatans"] = $kec->orderBy('nm_kec', 'ASC')->findAll();
         $data["reports"] = $db->table('reports_view');
         $data["months"] = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
         $data["komoditas"] = $komoditas;

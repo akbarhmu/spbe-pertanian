@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d648ee3b65e8d352e12e15817702e7cd",
+    "content-hash": "c38322cea9ba286a1754ec5c1a76efb0",
     "packages": [
         {
             "name": "codeigniter4/framework",
@@ -79,6 +79,46 @@
                 "source": "https://github.com/codeigniter4/CodeIgniter4"
             },
             "time": "2023-10-19T21:36:24+00:00"
+        },
+        {
+            "name": "immachakata/ci4-relationships",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/im-machakata/ci4-relationships.git",
+                "reference": "4e559e13885605120112576694480fc9c6dd64df"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/im-machakata/ci4-relationships/zipball/4e559e13885605120112576694480fc9c6dd64df",
+                "reference": "4e559e13885605120112576694480fc9c6dd64df",
+                "shasum": ""
+            },
+            "require": {
+                "codeigniter4/framework": "^4.0",
+                "php": "^7.4 || ^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CI4Extensions\\Database\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Isaac Machakata",
+                    "email": "isaac@caasi.co.zw"
+                }
+            ],
+            "description": "Easily add and manage database relationships in CodeIgniter 4",
+            "support": {
+                "source": "https://github.com/im-machakata/ci4-relationships/tree/v1.0"
+            },
+            "time": "2023-09-25T00:17:52+00:00"
         },
         {
             "name": "laminas/laminas-escaper",

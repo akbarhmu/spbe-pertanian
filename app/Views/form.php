@@ -8,7 +8,7 @@ Formulir Lahan Desa
 <div id="auth">
     <div class="container">
         <div class="row">
-            <div class="col-md-7 col-sm-12 mx-auto">
+            <div class="col-12 mx-auto">
                 <div class="card pt-4">
                     <div class="card-body">
                         <div class="text-center mb-5">
@@ -20,13 +20,11 @@ Formulir Lahan Desa
                             <?= show_alert_message() ?>
                             <?= csrf_field() ?>
                             <div class="row">
-                                <div class="col-12">
+                                <div class="col-12 col-md-4">
                                     <div class="form-group is-required">
                                         <label for="name">Nama Petugas</label>
                                         <input type="text" id="name" class="form-control $classAttribute $isInvalid" name="$id" value="<?= $name ?>" placeholder="" disabled>
                                     </div>
-                                </div>
-                                <div class="col-12">
                                     <div class="form-group is-required">
                                         <label for="month">Laporan Bulan</label>
                                         <select id="month" name="month" class="form-select" required>
@@ -35,8 +33,6 @@ Formulir Lahan Desa
                                             <?php endforeach ?>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="col-12">
                                     <div class="form-group is-required">
                                         <label for="week">Minggu ke-</label>
                                         <select id="week" name="week" class="form-select" required>
@@ -45,8 +41,6 @@ Formulir Lahan Desa
                                             <?php endforeach ?>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="col-12">
                                     <div class="form-group is-required">
                                         <label for="kecamatan">Kecamatan</label>
                                         <select id="kecamatan" name="kecamatan" class="form-select <?= (isset(validation_errors()['kecamatan'])) ? 'is-invalid' : '' ?>" required disabled>
@@ -56,8 +50,6 @@ Formulir Lahan Desa
                                         </select>
                                         <?= validation_show_error('kecamatan', 'single_error') ?>
                                     </div>
-                                </div>
-                                <div class="col-12">
                                     <div class="form-group is-required">
                                         <label for="kelurahan">Kelurahan</label>
                                         <select id="kelurahan" name="kelurahan" class="form-select <?= (isset(validation_errors()['kelurahan'])) ? 'is-invalid' : '' ?>" required>
@@ -68,16 +60,15 @@ Formulir Lahan Desa
                                         <?= validation_show_error('kelurahan', 'single_error') ?>
                                     </div>
                                 </div>
-                                <?php foreach($mandatoryCommodities as $mandatoryCommodity) { ?>
-                                    <div class="col-12">
+                                <div class="col-12 col-md-4">
+                                    <?php foreach($mandatoryCommodities as $mandatoryCommodity) { ?>
                                         <div class="form-group is-required">
-                                            <label for="lahan[<?=$mandatoryCommodity['id']?>]">Luas Tanaman <?=$mandatoryCommodity['name']?> Lahan <?=$mandatoryCommodity['type']?></label>
+                                            <label for="lahan[<?=$mandatoryCommodity['id']?>]">Luas Tanaman <?=$mandatoryCommodity['name']?> Lahan <?=$mandatoryCommodity['type']?> (Ha)</label>
                                             <?= form_input_with_validation(type: "text", id: "lahan[".$mandatoryCommodity['id']."]", required: false, placeholder: "Isi luas tanah dalam satuan (Ha)") ?>
                                         </div>
-                                    </div>
-                                <?php } ?>
-
-                                <div class="col-12 mt-3">
+                                    <?php } ?>
+                                </div>
+                                <div class="col-12 col-md-4">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h6>Komoditas Unggulan</h6>
                                         <d class="d-flex">
@@ -86,9 +77,9 @@ Formulir Lahan Desa
                                             </button>
                                         </d>
                                     </div>
-                                </div>
 
-                                <div id="inputArea"></div>
+                                    <div id="inputArea"></div>
+                                </div>
 
                                 <div class="clearfix">
                                     <button class="btn btn-primary float-end">Submit</button>
@@ -156,10 +147,10 @@ Formulir Lahan Desa
         newDiv.innerHTML = `
             <div class="col-12">
                 <div class="form-group is-required">
-                    <label for="">Luas Tanaman `+commodityName+`</label>
+                    <label for="">Luas Tanaman `+commodityName+` (Ha)</label>
                     <div class="input-group is-required">
                         <input type="number" name="lahan[`+commodityId+`]" class="form-control" placeholder="Isi luas tanah dalam satuan (Ha)" required>
-                        <button class="btn btn-danger" type="button" onclick="this.parentElement.parentElement.remove()">
+                        <button class="btn btn-danger" type="button" onclick="this.parentElement.parentElement.remove();restoreCommodityOption(`+commodityId+`, '`+commodityName+`');">
                             <i class="fas fa-trash"></i> Hapus
                         </button>
                     </div>
@@ -167,7 +158,18 @@ Formulir Lahan Desa
             </div>
         `;
         inputArea.appendChild(newDiv);
+
+        document.getElementById('commodity').options[document.getElementById('commodity').selectedIndex].remove();
+
         $('#addCommodityFieldModal').modal('hide');
+    }
+
+    function restoreCommodityOption($id, $name) {
+        var select = document.getElementById('commodity');
+        var option = document.createElement('option');
+        option.value = $id;
+        option.text = $name;
+        select.appendChild(option);
     }
 </script>
 <?= $this->endSection() ?>
