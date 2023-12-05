@@ -5,17 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $this->renderSection('page_title') ?> | Dashboard</title>
-
-    <style>
-        td {
-            text-align: center
-        }
-
-        th {
-            text-align: center;
-            vertical-align: middle;
-        }
-    </style>
     <link rel="stylesheet" href="/assets/css/bootstrap.css">
 
     <?= $this->renderSection('styles') ?>

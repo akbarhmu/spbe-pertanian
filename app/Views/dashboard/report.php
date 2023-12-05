@@ -3,6 +3,19 @@
 Tanaman <?= $komoditas ?> Kabupaten Malang
 <?= $this->endSection() ?>
 
+<?= $this->section('styles') ?>
+<style>
+    td {
+        text-align: center
+    }
+
+    th {
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 <?php
 // dd($reports->where('nm_kec', 'AMPELGADING')->get()->getResultArray());
