@@ -9,3 +9,8 @@
     text-transform: none;
     margin-bottom: 5px;
 }
+
+.text-underlined:hover {
+    font-weight: bolder;
+    cursor: pointer;
+}

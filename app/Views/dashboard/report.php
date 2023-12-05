@@ -82,40 +82,40 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                                                     $perubahanLuasTegal = $luasTegal - $luasTegalSebelumnya;
                                                     ?>
 
-                                                    <td>
-                                                        <a class="btn btn-luas" <?=($luasSawah!=0)? 'data-bs-toggle="modal" data-bs-target="#modalDetailLuasPerBulan"' : ''?> data-nama-kecamatan="<?=$kecamatan['nm_kec']?>" data-kecamatan="<?=$kecamatan['id_kec']?>" data-tahun="<?=$tahun?>" data-bulan="<?=$month?>" data-komoditas="<?=$komoditas?>" data-type="Sawah">
+                                                    <td class="p-2">
+                                                        <a class="btn-luas" <?=($luasSawah!=0)? 'data-bs-toggle="modal" data-bs-target="#modalDetailLuasPerBulan"' : ''?> data-nama-kecamatan="<?=$kecamatan['nm_kec']?>" data-kecamatan="<?=$kecamatan['id_kec']?>" data-tahun="<?=$tahun?>" data-bulan="<?=$month?>" data-komoditas="<?=$komoditas?>" data-type="Sawah">
                                                             <?php if ($perubahanLuasSawah > 0): ?>
-                                                                <p class="text-success mb-0">
-                                                                    +<?= $perubahanLuasSawah ?>
+                                                                <p class="text-success mb-0" style="font-size: 0.8rem">
+                                                                    ▲ +<?= $perubahanLuasSawah ?>
                                                                 </p>
                                                             <?php elseif ($perubahanLuasSawah < 0): ?>
-                                                                <p class="text-danger mb-0">
-                                                                    <?= $perubahanLuasSawah ?>
+                                                                <p class="text-danger mb-0" style="font-size: 0.8rem">
+                                                                    ▼ <?= $perubahanLuasSawah ?>
                                                                 </p>
                                                             <?php else: // $perubahanLuasSawah == 0 ?>
-                                                                <p class="text-info mb-0">
-                                                                    ±<?= $perubahanLuasSawah ?>
+                                                                <p class="text-secondary mb-0" style="font-size: 0.8rem">
+                                                                    =
                                                                 </p>
                                                             <?php endif; ?>
-                                                            <h4 class="text-dark text-bold"><?= $luasSawah ?></h4>
+                                                            <h4 class="text-dark text-bold text-underlined"><?= $luasSawah ?></h4>
                                                         </a>
                                                     </td>
-                                                    <td>
-                                                        <a class="btn btn-luas" <?=($luasTegal!=0)? 'data-bs-toggle="modal" data-bs-target="#modalDetailLuasPerBulan"' : ''?> data-nama-kecamatan="<?=$kecamatan['nm_kec']?>" data-kecamatan="<?=$kecamatan['id_kec']?>" data-tahun="<?=$tahun?>" data-bulan="<?=$month?>" data-komoditas="<?=$komoditas?>" data-type="Tegal">
+                                                    <td class="p-2">
+                                                        <a class="btn-luas" <?=($luasTegal!=0)? 'data-bs-toggle="modal" data-bs-target="#modalDetailLuasPerBulan"' : ''?> data-nama-kecamatan="<?=$kecamatan['nm_kec']?>" data-kecamatan="<?=$kecamatan['id_kec']?>" data-tahun="<?=$tahun?>" data-bulan="<?=$month?>" data-komoditas="<?=$komoditas?>" data-type="Tegal">
                                                         <?php if ($perubahanLuasTegal > 0): ?>
-                                                                <p class="text-success mb-0">
-                                                                    +<?= $perubahanLuasTegal ?>
+                                                                <p class="text-success mb-0" style="font-size: 0.8rem">
+                                                                    ▲ +<?= $perubahanLuasTegal ?>
                                                                 </p>
                                                             <?php elseif ($perubahanLuasTegal < 0): ?>
-                                                                <p class="text-danger mb-0">
-                                                                    <?= $perubahanLuasTegal ?>
+                                                                <p class="text-danger mb-0" style="font-size: 0.8rem">
+                                                                    ▼ <?= $perubahanLuasTegal ?>
                                                                 </p>
                                                             <?php else: // $perubahanLuasTegal == 0 ?>
-                                                                <p class="text-info mb-0">
-                                                                    ±<?= $perubahanLuasTegal ?>
+                                                                <p class="text-secondary mb-0" style="font-size: 0.8rem">
+                                                                    =
                                                                 </p>
                                                             <?php endif; ?>
-                                                            <h4 class="text-dark text-bold"><?= $luasTegal ?></h4>
+                                                            <h4 class="text-dark text-bold text-underlined"><?= $luasTegal ?></h4>
                                                         </a>
                                                     </td>
                                                 <?php 
