@@ -125,6 +125,7 @@ class Validation extends BaseConfig
 
     public array $create_commodity = [
         'name'              => 'required|max_length[60]',
+        'image'             => 'uploaded[image]|max_size[image,1024]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png]',
         'typeLahan' => 'required',
     ];
 
@@ -132,6 +133,12 @@ class Validation extends BaseConfig
         'name' => [
             'required'      => 'Nama komoditas harus diisi',
             'max_length'    => 'Nama komoditas tidak boleh lebih dari 60 karakter',
+        ],
+        'image' => [
+            'uploaded'      => 'Foto komoditas harus diisi',
+            'max_size'      => 'Ukuran foto komoditas maksimal 1 MB',
+            'is_image'      => 'Foto komoditas harus berupa gambar',
+            'mime_in'       => 'Foto komoditas harus berupa gambar',
         ],
         'typeLahan' => [
             'required' => 'Tipe lahan harus ada',

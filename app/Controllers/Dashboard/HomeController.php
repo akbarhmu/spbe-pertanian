@@ -66,7 +66,9 @@ class HomeController extends BaseController
 
             $data['komoditas'][] = [
                 "name" => $commodityName,
-                "image" => "https://placehold.co/420x235?text=".$commodityName,
+                "image" => array_column(array_filter($commodities, function($commodity) use($commodityName) {
+                    return $commodity['name'] == $commodityName;
+                }), 'image')[0],
                 "totalBulanIni" => $totalBulanIni,
                 "totalBulanLalu" => $totalBulanLalu,
                 "perubahanTotalLuas" => $perubahanTotalLuas,

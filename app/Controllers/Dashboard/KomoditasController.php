@@ -26,16 +26,19 @@ class KomoditasController extends BaseController
             return redirect()->back()->withInput();
         } else {
             $validatedData = $validation->getValidated();
+
+            $image = $this->request->getFile('image');
+            $fileName = $image->getRandomName();
+            $image->move(ROOTPATH . 'public/assets/images/commodities', $fileName);
+
             $commodities = new CommodityModel();
             $commodities->insert([
                 'name' => $validatedData['name'],
+                'image' => '/assets/images/commodities/' . $fileName,
                 'type' => $validatedData['typeLahan'],
             ]);
-            session()->setFlashdata('alert_message', [
-                'type' => 'success',
-                'message' => 'Komoditas berhasil ditambahkan',
-                'icon' => 'fa-solid fa-check'
-            ]);
+            
+            session()->setFlashdata("success", "Komoditas berhasil ditambahkan");
             return redirect()->route('komoditas.index');
         }
     }
@@ -55,11 +58,8 @@ class KomoditasController extends BaseController
             $commodities->update($id, [
                 'name' => $validatedData['name']
             ]);
-            session()->setFlashdata('alert_message', [
-                'type' => 'success',
-                'message' => 'Komoditas berhasil diubah',
-                'icon' => 'fa-solid fa-check'
-            ]);
+            
+            session()->setFlashdata("success", "Komoditas berhasil diubah");
             return redirect()->route('komoditas.index');
         }
     }
@@ -68,6 +68,8 @@ class KomoditasController extends BaseController
     {
         $commodities = new CommodityModel();
         $commodities->delete($id);
+
+        session()->setFlashdata("success", "Komoditas berhasil dihapus");
         return redirect()->route('komoditas.index');
     }
 }

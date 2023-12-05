@@ -101,7 +101,7 @@ Komoditas
         <div class="modal fade" id="createCommodityModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
-                    <form action="<?= route_to('komoditas.store') ?>" method="POST">
+                    <form action="<?= route_to('komoditas.store') ?>" method="POST" enctype="multipart/form-data">
                         <?= csrf_field() ?>
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalCenterTitle">Tambah Komoditas</h5>
@@ -110,6 +110,10 @@ Komoditas
                             </button>
                         </div>
                         <div class="modal-body">
+                            <div class="form-group is-required">
+                                <label for="image">Foto (.jpg, .jpeg, .png; Max: 1MB)</label>
+                                <?= form_input_with_validation(type: "file", id: "image", required: true, placeholder: "Masukkan nama komoditas") ?>
+                            </div>
                             <div class="form-group is-required">
                                 <label for="name">Nama Komoditas</label>
                                 <?= form_input_with_validation(type: "text", id: "name", required: true, placeholder: "Masukkan nama komoditas") ?>
@@ -128,7 +132,7 @@ Komoditas
                                 <i class="bx bx-x d-block d-sm-none"></i>
                                 <span class="d-none d-sm-block">Batal</span>
                             </button>
-                            <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                            <button type="submit" class="btn btn-primary ml-1">
                                 <i class="bx bx-check d-block d-sm-none"></i>
                                 <span class="d-none d-sm-block">Simpan</span>
                             </button>

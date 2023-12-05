@@ -22,9 +22,10 @@
         $valueAttribute = ($value && $type != 'password') ? $value : old($id);
         $error = validation_show_error($id, 'single_error');
         $isInvalid = (isset(validation_errors()[$id])) ? 'is-invalid' : '';
+        $accept = ($type == 'file') ? 'accept=".jpg,.jpeg,.png"' : '';
 
         return <<<HTML
-        <input type="$type" id="$id" class="form-control $classAttribute $isInvalid" name="$id" value="$valueAttribute" $requiredAttribute placeholder="$placeholderText">
+        <input type="$type" id="$id" $accept class="form-control $classAttribute $isInvalid" name="$id" value="$valueAttribute" $requiredAttribute placeholder="$placeholderText">
         $error
         HTML;
     }

@@ -12,7 +12,7 @@ class CommodityModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name', 'type'];
+    protected $allowedFields    = ['name', 'image', 'type'];
 
     // Dates
     protected $useTimestamps = true;
