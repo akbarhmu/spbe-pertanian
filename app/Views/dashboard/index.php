@@ -6,8 +6,8 @@ Dashboard
 <?= $this->section('content') ?>
 <div class="main-content container-fluid">
     <div class="page-title">
-        <h3>Data Lahan Komoditas Bulan <?=$bulan?></h3>
-        <p class="text-subtitle text-muted">Data Luas Lahan per Komoditas Pertanian Kabupaten Malang</p>
+        <h3>Sasaran Areal Tanam Bulan <?=$bulan?></h3>
+        <p class="text-subtitle text-muted">Data Terakhir Tanggal <?=$latest_updated_at?></p>
     </div>
     <section class="section">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">

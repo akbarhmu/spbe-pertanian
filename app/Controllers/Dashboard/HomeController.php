@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\CommodityModel;
 use App\Models\KecamatanModel;
 use App\Models\ReportModel;
+use DateTime;
 
 class HomeController extends BaseController
 {
@@ -16,15 +17,21 @@ class HomeController extends BaseController
         $bulanLalu = (date('m') == 1) ? $months[11] : $months[date('m')-2];
 
         $reportsModel = new ReportModel();
-        $reports = $reportsModel->select('id_commodity,luas,bulan,YEAR(created_at) as tahun')->whereIn('bulan', [$bulanIni, $bulanLalu])->where('YEAR(created_at)', date('Y'))->findAll();
+        $reports = $reportsModel->select('id_commodity,luas,bulan,YEAR(created_at) as tahun,updated_at')->whereIn('bulan', [$bulanIni, $bulanLalu])->where('YEAR(created_at)', date('Y'))->findAll();
 
         $commoditiesModel = new CommodityModel();
         $commodities = $commoditiesModel->findAll();
         $commoditiesName = array_unique(array_column($commodities, 'name'));
 
+        $updatedAt = array_column($reports, 'updated_at');
+        array_multisort($updatedAt, SORT_DESC, $reports);
+        $dateTime = new DateTime($reports[0]['updated_at']);
+        $latestUpdatedAt = $dateTime->format("d F Y");
+
         $data = [
             "bulan" => $bulanIni,
             "bulanLalu" => $bulanLalu,
+            "latest_updated_at" => $latestUpdatedAt,
             "komoditas" => []
         ];
 
