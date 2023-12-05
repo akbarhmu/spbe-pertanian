@@ -54,7 +54,7 @@ Formulir Lahan Desa
                                         <?= validation_show_error('kecamatan', 'single_error') ?>
                                     </div>
                                     <div class="form-group is-required">
-                                        <label for="kelurahan">Kelurahan</label>
+                                        <label for="kelurahan">Desa/Kelurahan</label>
                                         <select id="kelurahan" name="kelurahan" class="form-select <?= (isset(validation_errors()['kelurahan'])) ? 'is-invalid' : '' ?>" required>
                                             <?php foreach ($kelurahans as $kelurahan) : ?>
                                                 <option value=<?= $kelurahan['id_desa'] ?> <?= ($kelurahan['id_desa'] == old('kelurahan') ? 'selected' : '') ?>><?= $kelurahan['nm_desa'] ?></option>
