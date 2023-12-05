@@ -22,7 +22,7 @@ class Report extends BaseController
         $data["kecamatans"] = $kecamatans->where('id_kec', $kec_id)->findAll();
         $data["weeks"] = ["1 (Satu)", "2 (Dua)", "3 (Tiga)", "4 (Empat)", "5 (Lima)"];
         $data["months"] = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-        $data["kelurahans"] = $kelurahans->where("id_kec", $kec_id)->findAll();
+        $data["kelurahans"] = $kelurahans->where("id_kec", $kec_id)->orderBy('nm_desa', 'asc')->findAll();
         $data['mandatoryCommodities'] = $commodities->where('mandatory', true)->findAll();
         $data['commodities'] = $commodities->where('mandatory', false)->findAll();
         return view('form.php', $data);
