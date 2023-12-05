@@ -17,9 +17,10 @@ class HomeController extends BaseController
 
         $reportsModel = new ReportModel();
         $reports = $reportsModel->select('id_commodity,luas,bulan,YEAR(created_at) as tahun')->whereIn('bulan', [$bulanIni, $bulanLalu])->where('YEAR(created_at)', date('Y'))->findAll();
-        
+
         $commoditiesModel = new CommodityModel();
-        $commodities = $commoditiesModel->select('id,name,created_at')->groupBy('name')->findAll();
+        $commodities = $commoditiesModel->findAll();
+        $commoditiesName = array_unique(array_column($commodities, 'name'));
 
         $data = [
             "bulan" => $bulanIni,
@@ -27,10 +28,10 @@ class HomeController extends BaseController
             "komoditas" => []
         ];
 
-        foreach($commodities as $commodity) {
-
-            $listKomoditas = $commoditiesModel->where('name', $commodity['name'])->findAll();
-            $listIdKomoditas = array_column($listKomoditas, 'id');
+        foreach($commoditiesName as $commodityName) {
+            $listIdKomoditas = array_column(array_filter($commodities, function($commodity) use($commodityName) {
+                return $commodity['name'] == $commodityName;
+            }), 'id');
 
             $commodityReports = array_filter($reports, function($report) use($listIdKomoditas) {
                 return in_array($report['id_commodity'], $listIdKomoditas);
@@ -54,11 +55,11 @@ class HomeController extends BaseController
             }
 
             $perubahanTotalLuas = $totalBulanIni - $totalBulanLalu;
-            $persentasePerubahan = ($totalBulanLalu == 0) ? 100 : round(($perubahanTotalLuas / $totalBulanLalu) * 100, 2);
+            $persentasePerubahan = ($totalBulanLalu == $totalBulanIni) ? 0 : (($totalBulanLalu == 0) ? 100 : round(($perubahanTotalLuas / $totalBulanLalu) * 100, 2));
 
             $data['komoditas'][] = [
-                "name" => $commodity['name'],
-                "image" => "https://placehold.co/420x235?text=".$commodity['name'],
+                "name" => $commodityName,
+                "image" => "https://placehold.co/420x235?text=".$commodityName,
                 "totalBulanIni" => $totalBulanIni,
                 "totalBulanLalu" => $totalBulanLalu,
                 "perubahanTotalLuas" => $perubahanTotalLuas,
