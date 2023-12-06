@@ -9,3 +9,14 @@
     text-transform: none;
     margin-bottom: 5px;
 }
+
+.text-underlined:hover {
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}

@@ -45,3 +45,7 @@ $routes->group('dashboard', ['filter' => ['auth', 'verified']], function ($route
         $routes->delete('(:num)', 'Dashboard\UserController::destroy/$1', ['as' => 'users.destroy']);
     });
 });
+
+$routes->group('ajax', function ($routes) {
+    $routes->post('getDetailLuasPerBulan', 'Dashboard\AjaxController::getDetailLuasPerBulan', ['as' => 'ajax.get-detail-luas-per-bulan']);
+});
