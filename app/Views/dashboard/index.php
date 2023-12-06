@@ -10,7 +10,7 @@ Dashboard
 <div class="main-content container-fluid">
     <div class="page-title">
         <h3>Dashboard</h3>
-        <p class="text-subtitle text-muted">A good dashboard to display your statistics</p>
+        <!-- <p class="text-subtitle text-muted">A good dashboard to display your statistics</p> -->
     </div>
     <section class="section">
         <div class="row mb-2">
@@ -85,7 +85,7 @@ Dashboard
                     </div> -->
             <div class="row mb-4">
                 <div class="col">
-                    <div class="card" style="width: 40rem;">
+                    <div class="card" style="width: 43rem;">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4 class="card-title"> Komoditas Kabupaten Malang </h4>
                             <div class="d-flex ">
@@ -101,7 +101,7 @@ Dashboard
                                             <th>Nama Komoditas</th>
                                             <th>Jumlah Luas Terakhir (Ha)</th>
                                             <th>Perubahan (Ha)</th>
-                                            <th>Perubahan (%)</th>
+                                            <!-- <th>Perubahan (%)</th> -->
                                         </tr>
                                     </thead>
                                     <tbody>

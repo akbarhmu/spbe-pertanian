@@ -21,23 +21,27 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->post('/logout', 'Auth::logout', ['as' => 'user.logout']);
 });
 
-$routes->group('', ['filter' => ['auth', 'verified']], function ($routes) {
+$routes->group('', ['filter' => ['auth', 'verified', 'penyuluh']], function ($routes) {
     $routes->get('/formulir', 'Report::index', ['as' => 'formulir']);
     $routes->post('/formulir', 'Report::store', ['as' => 'lahan.store']);
 });
 
 $routes->group('dashboard', ['filter' => ['auth', 'verified']], function ($routes) {
     $routes->get('/', 'Dashboard\HomeController::index', ['as' => 'dashboard']);
-    $routes->get('report', 'Dashboard\HomeController::report/$1');
+    $routes->get('report', 'Dashboard\HomeController::report');
 
     // Master Komoditas
-    $routes->get('komoditas', 'Dashboard\KomoditasController::index', ['as' => 'komoditas.index']);
-    $routes->post('komoditas', 'Dashboard\KomoditasController::store', ['as' => 'komoditas.store']);
-    $routes->put('komoditas/(:num)', 'Dashboard\KomoditasController::update/$1', ['as' => 'komoditas.update']);
-    $routes->delete('komoditas/(:num)', 'Dashboard\KomoditasController::destroy/$1', ['as' => 'komoditas.destroy']);
+    $routes->group('komoditas', ['filter' => 'admin'], function ($routes) {
+        $routes->get('/', 'Dashboard\KomoditasController::index', ['as' => 'komoditas.index']);
+        $routes->post('/', 'Dashboard\KomoditasController::store', ['as' => 'komoditas.store']);
+        $routes->put('(:num)', 'Dashboard\KomoditasController::update/$1', ['as' => 'komoditas.update']);
+        $routes->delete('(:num)', 'Dashboard\KomoditasController::destroy/$1', ['as' => 'komoditas.destroy']);
+    });
 
     // Konfirmasi Pengguna
-    $routes->get('users', 'Dashboard\UserController::index', ['as' => 'users.index']);
-    $routes->post('users/(:num)/verify', 'Dashboard\UserController::verify/$1', ['as' => 'users.verify']);
-    $routes->delete('users/(:num)', 'Dashboard\UserController::destroy/$1', ['as' => 'users.destroy']);
+    $routes->group('users', ['filter' => 'admin'], function ($routes) {
+        $routes->get('/', 'Dashboard\UserController::index', ['as' => 'users.index']);
+        $routes->post('(:num)/verify', 'Dashboard\UserController::verify/$1', ['as' => 'users.verify']);
+        $routes->delete('(:num)', 'Dashboard\UserController::destroy/$1', ['as' => 'users.destroy']);
+    });
 });

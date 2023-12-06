@@ -27,6 +27,8 @@ class Filters extends BaseConfig
         'auth'          => \App\Filters\AuthFilter::class,
         'guest'         => \App\Filters\GuestFilter::class,
         'verified'      => \App\Filters\Verified::class,
+        'admin' => \App\Filters\AdminFilter::class,
+        'penyuluh' => \App\Filters\PenyuluhFilter::class,
     ];
 
     /**

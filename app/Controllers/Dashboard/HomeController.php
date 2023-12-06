@@ -21,7 +21,7 @@ class HomeController extends BaseController
 
         return view('dashboard/index', $data);
     }
-    public function report($komoditas)
+    public function report()
     {
         helper('form', 'form_helper');
         $request = service('request');
