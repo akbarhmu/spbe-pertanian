@@ -12,12 +12,14 @@ class HomeController extends BaseController
 {
     public function index()
     {
+        $db = \Config\Database::connect();
         $months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+
         $bulanIni = $months[date('m') - 1];
         $bulanLalu = (date('m') == 1) ? $months[11] : $months[date('m') - 2];
 
-        $reportsModel = new ReportModel();
-        $reports = $reportsModel->select('id_commodity,luas,bulan,YEAR(created_at) as tahun,updated_at')->whereIn('bulan', [$bulanIni, $bulanLalu])->where('YEAR(created_at)', date('Y'))->findAll();
+        $reports = $db->table('reports_view')->select('nama_komoditas,luas,bulan,YEAR(created_at) as tahun,updated_at')
+            ->whereIn('bulan', [$bulanIni, $bulanLalu])->where('YEAR(created_at)', date('Y'))->get()->getResultArray();
 
         $commoditiesModel = new CommodityModel();
         $commodities = $commoditiesModel->findAll();
@@ -36,19 +38,15 @@ class HomeController extends BaseController
         ];
 
         foreach ($commoditiesName as $commodityName) {
-            $listIdKomoditas = array_column(array_filter($commodities, function ($commodity) use ($commodityName) {
-                return $commodity['name'] == $commodityName;
-            }), 'id');
-
-            $commodityReports = array_filter($reports, function ($report) use ($listIdKomoditas) {
-                return in_array($report['id_commodity'], $listIdKomoditas);
+            $commodityReports = array_filter($reports, function ($report) use ($commoditiesName) {
+                return in_array($report['nama_komoditas'], $commoditiesName);
             });
 
-            $reportsBulanIni = array_filter($commodityReports, function ($report) use ($bulanIni) {
-                return $report['bulan'] == $bulanIni && $report['tahun'] == date('Y');
+            $reportsBulanIni = array_filter($commodityReports, function ($report) use ($bulanIni, $commodityName) {
+                return $report['bulan'] == $bulanIni && $report['tahun'] == date('Y') && $report['nama_komoditas'] == $commodityName;
             });
-            $reportsBulanLalu = array_filter($commodityReports, function ($report) use ($bulanLalu) {
-                return $report['bulan'] == $bulanLalu && $report['tahun'] == date('Y');
+            $reportsBulanLalu = array_filter($commodityReports, function ($report) use ($bulanLalu, $commodityName) {
+                return $report['bulan'] == $bulanLalu && $report['tahun'] == date('Y') && $report['nama_komoditas'] == $commodityName;
             });
 
             $totalBulanIni = 0;
