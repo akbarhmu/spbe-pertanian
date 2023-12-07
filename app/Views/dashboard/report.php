@@ -35,11 +35,26 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                             <div class="d-flex ">
 
 
-                                <select class="form-select">
-                                    <?php foreach ($years as $year) : ?>
-                                        <option><a href="/dashboard/report?tanaman=<?= $komoditas ?>&tahun=<?= $year['years'] ?>"></a><?= $year['years'] ?></option>
+                                <select class="form-select" id="tahunSelect">
+                                    <?php
+                                    if (!isset($_GET['tahun'])) {
+                                        $_GET['tahun'] = date('Y');
+                                    }
+                                    foreach ($years as $year) :
+                                    ?>
+                                        <?php $selected = ($year['years'] == $_GET['tahun']) ? 'selected' : ''; ?>
+                                        <option value="<?= $year['years'] ?>" <?= $selected ?>><?= $year['years'] ?></option>
                                     <?php endforeach ?>
                                 </select>
+                                <script>
+                                    document.getElementById('tahunSelect').addEventListener('change', function() {
+                                        var selectedYear = this.value;
+                                        var komoditas = "<?= $komoditas ?>";
+                                        window.location.href = "/dashboard/report?tanaman=" + komoditas + "&tahun=" + selectedYear;
+                                    });
+                                </script>
+
+
 
                                 <i data-feather="download"></i>
                             </div>
@@ -96,16 +111,17 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                                                     ?>
 
                                                     <td class="p-2">
-                                                        <a class="btn-luas" <?=($luasSawah!=0)? 'data-bs-toggle="modal" data-bs-target="#modalDetailLuasPerBulan"' : ''?> data-nama-kecamatan="<?=$kecamatan['nm_kec']?>" data-kecamatan="<?=$kecamatan['id_kec']?>" data-tahun="<?=$tahun?>" data-bulan="<?=$month?>" data-komoditas="<?=$komoditas?>" data-type="Sawah">
-                                                            <?php if ($perubahanLuasSawah > 0): ?>
+                                                        <a class="btn-luas" <?= ($luasSawah != 0) ? 'data-bs-toggle="modal" data-bs-target="#modalDetailLuasPerBulan"' : '' ?> data-nama-kecamatan="<?= $kecamatan['nm_kec'] ?>" data-kecamatan="<?= $kecamatan['id_kec'] ?>" data-tahun="<?= $tahun ?>" data-bulan="<?= $month ?>" data-komoditas="<?= $komoditas ?>" data-type="Sawah">
+                                                            <?php if ($perubahanLuasSawah > 0) : ?>
                                                                 <p class="text-success mb-0" style="font-size: 0.8rem">
                                                                     ▲ +<?= $perubahanLuasSawah ?>
                                                                 </p>
-                                                            <?php elseif ($perubahanLuasSawah < 0): ?>
+                                                            <?php elseif ($perubahanLuasSawah < 0) : ?>
                                                                 <p class="text-danger mb-0" style="font-size: 0.8rem">
                                                                     ▼ <?= $perubahanLuasSawah ?>
                                                                 </p>
-                                                            <?php else: // $perubahanLuasSawah == 0 ?>
+                                                            <?php else : // $perubahanLuasSawah == 0 
+                                                            ?>
                                                                 <p class="text-secondary mb-0" style="font-size: 0.8rem">
                                                                     =
                                                                 </p>
@@ -114,16 +130,17 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                                                         </a>
                                                     </td>
                                                     <td class="p-2">
-                                                        <a class="btn-luas" <?=($luasTegal!=0)? 'data-bs-toggle="modal" data-bs-target="#modalDetailLuasPerBulan"' : ''?> data-nama-kecamatan="<?=$kecamatan['nm_kec']?>" data-kecamatan="<?=$kecamatan['id_kec']?>" data-tahun="<?=$tahun?>" data-bulan="<?=$month?>" data-komoditas="<?=$komoditas?>" data-type="Tegal">
-                                                        <?php if ($perubahanLuasTegal > 0): ?>
+                                                        <a class="btn-luas" <?= ($luasTegal != 0) ? 'data-bs-toggle="modal" data-bs-target="#modalDetailLuasPerBulan"' : '' ?> data-nama-kecamatan="<?= $kecamatan['nm_kec'] ?>" data-kecamatan="<?= $kecamatan['id_kec'] ?>" data-tahun="<?= $tahun ?>" data-bulan="<?= $month ?>" data-komoditas="<?= $komoditas ?>" data-type="Tegal">
+                                                            <?php if ($perubahanLuasTegal > 0) : ?>
                                                                 <p class="text-success mb-0" style="font-size: 0.8rem">
                                                                     ▲ +<?= $perubahanLuasTegal ?>
                                                                 </p>
-                                                            <?php elseif ($perubahanLuasTegal < 0): ?>
+                                                            <?php elseif ($perubahanLuasTegal < 0) : ?>
                                                                 <p class="text-danger mb-0" style="font-size: 0.8rem">
                                                                     ▼ <?= $perubahanLuasTegal ?>
                                                                 </p>
-                                                            <?php else: // $perubahanLuasTegal == 0 ?>
+                                                            <?php else : // $perubahanLuasTegal == 0 
+                                                            ?>
                                                                 <p class="text-secondary mb-0" style="font-size: 0.8rem">
                                                                     =
                                                                 </p>
@@ -131,11 +148,11 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                                                             <h4 class="text-dark text-bold text-underlined"><?= $luasTegal ?></h4>
                                                         </a>
                                                     </td>
-                                                <?php 
-                                                $luasSawahSebelumnya = $luasSawah;
-                                                $luasTegalSebelumnya = $luasTegal;
+                                                <?php
+                                                    $luasSawahSebelumnya = $luasSawah;
+                                                    $luasTegalSebelumnya = $luasTegal;
                                                 endforeach;
-                                                $jumlahTotal += $totalLuas; 
+                                                $jumlahTotal += $totalLuas;
                                                 ?>
                                                 <td><?= $totalLuas ?></td>
                                             </tr>
@@ -328,10 +345,8 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
     </section>
 
     <!-- Modal Detail Luas Per Bulan -->
-    <div class="modal fade" id="modalDetailLuasPerBulan" tabindex="-1" role="dialog"
-    aria-labelledby="modalDetailLuasPerBulanTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
-            role="document">
+    <div class="modal fade" id="modalDetailLuasPerBulan" tabindex="-1" role="dialog" aria-labelledby="modalDetailLuasPerBulanTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalDetailLuasPerBulanTitle">Detail Luas Lahan</h5>
@@ -386,7 +401,7 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
             var modal = $(this);
             modal.find('.modal-title').text('Luas Lahan ' + type + ' ' + komoditas + ' ' + bulan + ' ' + tahun + ' - ' + namaKecamatan);
             $.ajax({
-                url: '<?=route_to('ajax.get-detail-luas-per-bulan')?>',
+                url: '<?= route_to('ajax.get-detail-luas-per-bulan') ?>',
                 type: 'POST',
                 dataType: 'json',
                 data: {
