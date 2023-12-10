@@ -82,7 +82,7 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                                     <tbody>
                                         <?php $i = 1 ?>
                                         <?php $jumlahTotal = 0 ?>
-                                        <?php foreach ($kecamatans as $kecamatan) : ?>
+                                        <?php foreach ($reports as $report) : ?>
 
                                             <tr>
                                                 <td>
@@ -90,28 +90,20 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                                                     $i++ ?>
                                                 </td>
                                                 <td>
-                                                    <?= $kecamatan["nm_kec"] ?>
+                                                    <?= $report['namaKec'] ?>
                                                 </td>
-                                                <?php $totalLuas = 0; ?>
                                                 <?php $luasSawahSebelumnya = 0; ?>
                                                 <?php $luasTegalSebelumnya = 0; ?>
 
-                                                <?php foreach ($months as $month) : ?>
+                                                <?php foreach ($report['luasBulanan'] as $luas) : ?>
                                                     <?php
-                                                    $condSawah = ['nm_kec' => $kecamatan['nm_kec'], 'bulan' => $month, 'nama_komoditas' => $komoditas, 'type' => 'Sawah'];
-                                                    $condTegal = ['nm_kec' => $kecamatan['nm_kec'], 'bulan' => $month, 'nama_komoditas' => $komoditas, 'type' => 'Tegal'];
-                                                    $sawah = $reports->select('sum(luas) as luas')->where($condSawah)->where('YEAR(created_at)', $tahun)->get()->getRowArray();
-                                                    $tegal = $reports->select('sum(luas) as luas')->where($condTegal)->where('YEAR(created_at)', $tahun)->get()->getRowArray();
-                                                    $luasSawah = !empty($sawah['luas']) ? $sawah['luas'] : 0;
-                                                    $luasTegal = !empty($tegal['luas']) ? $tegal['luas'] : 0;
-                                                    $totalLuas += $luasTegal + $luasSawah;
 
-                                                    $perubahanLuasSawah = $luasSawah - $luasSawahSebelumnya;
-                                                    $perubahanLuasTegal = $luasTegal - $luasTegalSebelumnya;
+                                                    $perubahanLuasSawah = $luas['sawah'] - $luasSawahSebelumnya;
+                                                    $perubahanLuasTegal = $luas['tegal'] - $luasTegalSebelumnya;
                                                     ?>
 
                                                     <td class="p-2">
-                                                        <a class="btn-luas" <?= ($luasSawah != 0) ? 'data-bs-toggle="modal" data-bs-target="#modalDetailLuasPerBulan"' : '' ?> data-nama-kecamatan="<?= $kecamatan['nm_kec'] ?>" data-kecamatan="<?= $kecamatan['id_kec'] ?>" data-tahun="<?= $tahun ?>" data-bulan="<?= $month ?>" data-komoditas="<?= $komoditas ?>" data-type="Sawah">
+                                                        <a class="btn-luas" <?= ($luas['sawah'] != 0) ? 'data-bs-toggle="modal" data-bs-target="#modalDetailLuasPerBulan"' : '' ?> data-nama-kecamatan="<?= $report['namaKec'] ?>" data-kecamatan="<?= $report['idKec'] ?>" data-tahun="<?= $tahun ?>" data-bulan="<?= $luas['bulan'] ?>" data-komoditas="<?= $komoditas ?>" data-type="Sawah">
                                                             <?php if ($perubahanLuasSawah > 0) : ?>
                                                                 <p class="text-success mb-0" style="font-size: 0.8rem">
                                                                     ▲ +<?= $perubahanLuasSawah ?>
@@ -126,11 +118,11 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                                                                     =
                                                                 </p>
                                                             <?php endif; ?>
-                                                            <h4 class="text-dark text-bold text-underlined"><?= $luasSawah ?></h4>
+                                                            <h4 class="text-dark text-bold text-underlined"><?= $luas['sawah'] ?></h4>
                                                         </a>
                                                     </td>
                                                     <td class="p-2">
-                                                        <a class="btn-luas" <?= ($luasTegal != 0) ? 'data-bs-toggle="modal" data-bs-target="#modalDetailLuasPerBulan"' : '' ?> data-nama-kecamatan="<?= $kecamatan['nm_kec'] ?>" data-kecamatan="<?= $kecamatan['id_kec'] ?>" data-tahun="<?= $tahun ?>" data-bulan="<?= $month ?>" data-komoditas="<?= $komoditas ?>" data-type="Tegal">
+                                                        <a class="btn-luas" <?= ($luas['tegal'] != 0) ? 'data-bs-toggle="modal" data-bs-target="#modalDetailLuasPerBulan"' : '' ?> data-nama-kecamatan="<?= $report['namaKec'] ?>" data-kecamatan="<?= $report['idKec'] ?>" data-tahun="<?= $tahun ?>" data-bulan="<?= $luas['bulan'] ?>" data-komoditas="<?= $komoditas ?>" data-type="Tegal">
                                                             <?php if ($perubahanLuasTegal > 0) : ?>
                                                                 <p class="text-success mb-0" style="font-size: 0.8rem">
                                                                     ▲ +<?= $perubahanLuasTegal ?>
@@ -145,30 +137,24 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                                                                     =
                                                                 </p>
                                                             <?php endif; ?>
-                                                            <h4 class="text-dark text-bold text-underlined"><?= $luasTegal ?></h4>
+                                                            <h4 class="text-dark text-bold text-underlined"><?= $luas['tegal'] ?></h4>
                                                         </a>
                                                     </td>
                                                 <?php
-                                                    $luasSawahSebelumnya = $luasSawah;
-                                                    $luasTegalSebelumnya = $luasTegal;
+                                                    $luasSawahSebelumnya = $luas['sawah'];
+                                                    $luasTegalSebelumnya = $luas['tegal'];
                                                 endforeach;
-                                                $jumlahTotal += $totalLuas;
                                                 ?>
-                                                <td><?= $totalLuas ?></td>
+                                                <td><?= $report['totalLuas'] ?></td>
                                             </tr>
                                         <?php endforeach ?>
                                         <tr>
                                             <td colspan="2">Jumlah</td>
-                                            <?php foreach ($months as $month) :
-                                                $jumlahLuasSawah = $reports->where('nama_komoditas', $komoditas)->where('bulan', $month)->where('type', 'Sawah')->where('YEAR(created_at)', $tahun)
-                                                    ->select('COALESCE(SUM(luas), 0) as luas')->get()->getRowArray();
-                                                $jumlahLuasTegal = $reports->where('nama_komoditas', $komoditas)->where('bulan', $month)->where('type', 'Tegal')->where('YEAR(created_at)', $tahun)
-                                                    ->select('COALESCE(SUM(luas), 0) as luas')->get()->getRowArray();
-                                            ?>
-                                                <td><?= $jumlahLuasSawah['luas'] ?></td>
-                                                <td><?= $jumlahLuasTegal['luas'] ?></td>
+                                            <?php foreach ($jumlah['bulanan'] as $bulanan) : ?>
+                                                <td><?= $bulanan['sawah'] ?></td>
+                                                <td><?= $bulanan['tegal'] ?></td>
                                             <?php endforeach ?>
-                                            <td><?= $jumlahTotal ?></td>
+                                            <td><?= $jumlah['total'] ?></td>
                                         </tr>
 
                                     </tbody>
@@ -185,14 +171,14 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                         <div class="row">
                             <div class="col-md-4 col-12">
                                 <div class="pl-3">
-                                    <h1 class='mt-5'><?= $jumlahTotal ?> (Ha)</h1>
-                                    <p class='text-xs'><span class="text-green"><i data-feather="bar-chart" width="15"></i> +19%</span> than last month</p>
+                                    <h1 class='mt-5'><?= $jumlah['total'] ?> (Ha)</h1>
+                                    <!-- <p class='text-xs'><span class="text-green"><i data-feather="bar-chart" width="15"></i> +19%</span> than last month</p> -->
                                     <div class="legends">
                                         <div class="legend d-flex flex-row align-items-center">
-                                            <div class='w-3 h-3 rounded-full bg-info me-2'></div><span class='text-xs'>Last Month</span>
+                                            <div class='w-3 h-3 rounded-full bg-green me-2'></div><span class='text-xs'>Luas Tertinggi</span>
                                         </div>
                                         <div class="legend d-flex flex-row align-items-center">
-                                            <div class='w-3 h-3 rounded-full bg-blue me-2'></div><span class='text-xs'>Current Month</span>
+                                            <div class='w-3 h-3 rounded-full bg-red me-2'></div><span class='text-xs'>Luas Terendah</span>
                                         </div>
                                     </div>
                                 </div>
@@ -200,15 +186,15 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                             <div class="col-md-8 col-12">
                                 <canvas id="bar"></canvas>
                                 <?php
-                                foreach ($months as $month) {
-                                    $cond = ['bulan' => $month, 'nama_komoditas' => $komoditas];
-                                    $luas[] = $reports->where($cond)->where('YEAR(created_at)', $tahun)->select('COALESCE(SUM(luas), 0) as luas')->get()->getRowArray();
+                                $luas = [];
+                                foreach ($jumlah['bulanan'] as $bulanan) {
+                                    $luas[] = $bulanan['sawah'] + $bulanan['tegal'];
                                 }
                                 ?>
                                 <script>
                                     var ctxBar = document.getElementById('bar').getContext('2d');
                                     var chartLabels = <?= json_encode($months); ?>;
-                                    var data = <?= json_encode(array_column($luas, 'luas')) ?>;
+                                    var data = <?= json_encode($luas) ?>;
                                     var chartData = data;
 
                                     var maxValue = Math.max(...data);

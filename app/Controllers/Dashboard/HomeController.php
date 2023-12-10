@@ -12,12 +12,14 @@ class HomeController extends BaseController
 {
     public function index()
     {
+        $db = \Config\Database::connect();
         $months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+
         $bulanIni = $months[date('m') - 1];
         $bulanLalu = (date('m') == 1) ? $months[11] : $months[date('m') - 2];
 
-        $reportsModel = new ReportModel();
-        $reports = $reportsModel->select('id_commodity,luas,bulan,YEAR(created_at) as tahun,updated_at')->whereIn('bulan', [$bulanIni, $bulanLalu])->where('YEAR(created_at)', date('Y'))->findAll();
+        $reports = $db->table('reports_view')->select('nama_komoditas,luas,bulan,YEAR(created_at) as tahun,updated_at')
+            ->whereIn('bulan', [$bulanIni, $bulanLalu])->where('YEAR(created_at)', date('Y'))->get()->getResultArray();
 
         $commoditiesModel = new CommodityModel();
         $commodities = $commoditiesModel->findAll();
@@ -36,19 +38,15 @@ class HomeController extends BaseController
         ];
 
         foreach ($commoditiesName as $commodityName) {
-            $listIdKomoditas = array_column(array_filter($commodities, function ($commodity) use ($commodityName) {
-                return $commodity['name'] == $commodityName;
-            }), 'id');
-
-            $commodityReports = array_filter($reports, function ($report) use ($listIdKomoditas) {
-                return in_array($report['id_commodity'], $listIdKomoditas);
+            $commodityReports = array_filter($reports, function ($report) use ($commoditiesName) {
+                return in_array($report['nama_komoditas'], $commoditiesName);
             });
 
-            $reportsBulanIni = array_filter($commodityReports, function ($report) use ($bulanIni) {
-                return $report['bulan'] == $bulanIni && $report['tahun'] == date('Y');
+            $reportsBulanIni = array_filter($commodityReports, function ($report) use ($bulanIni, $commodityName) {
+                return $report['bulan'] == $bulanIni && $report['tahun'] == date('Y') && $report['nama_komoditas'] == $commodityName;
             });
-            $reportsBulanLalu = array_filter($commodityReports, function ($report) use ($bulanLalu) {
-                return $report['bulan'] == $bulanLalu && $report['tahun'] == date('Y');
+            $reportsBulanLalu = array_filter($commodityReports, function ($report) use ($bulanLalu, $commodityName) {
+                return $report['bulan'] == $bulanLalu && $report['tahun'] == date('Y') && $report['nama_komoditas'] == $commodityName;
             });
 
             $totalBulanIni = 0;
@@ -91,16 +89,93 @@ class HomeController extends BaseController
 
         $tahun = $request->getGet('tahun');
         if (!isset($tahun)) {
-            $data["tahun"] = date('Y');
+            $tahun = date('Y');
+            $data['tahun'] = $tahun;
         } else {
             $data["tahun"] = $tahun;
         }
-        $data["kecamatans"] = $kec->orderBy('nm_kec', 'ASC')->findAll();
-        $data["reports"] = $db->table('reports_view');
-        $data["months"] = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-        $data['years'] = $db->table('reports_view')->select('year(created_at) as years')->groupBy('year(created_at)')->orderBy('year(created_at) desc')->get()->getResultArray();
-        $data["komoditas"] = $request->getGet('tanaman');
+        $kecamatans = $kec->orderBy('nm_kec', 'ASC')->findAll();
+        $komoditas = $request->getGet('tanaman');
+        $months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
+        $data['kecamatans'] = $kecamatans;
+        $reports = $db->table('reports_view');
+        // $data['reports'] = $reports;
+        $data['years'] = $db->table('reports_view')->select('year(created_at) as years')->groupBy('year(created_at)')->orderBy('year(created_at) desc')->get()->getResultArray();
+        $data['komoditas'] = $komoditas;
+        $data['months'] = $months;
+        $data['reports'] = [];
+
+
+
+
+        foreach ($kecamatans as $kecamatan) {
+            $luasBulanan = [];
+            $totalLuas = 0;
+            foreach ($months as $month) {
+                $condSawah = [
+                    'nm_kec' => $kecamatan['nm_kec'],
+                    'bulan' => $month,
+                    'nama_komoditas' => $komoditas,
+                    'type' => 'Sawah'
+                ];
+                $condTegal = [
+                    'nm_kec' => $kecamatan['nm_kec'],
+                    'bulan' => $month,
+                    'nama_komoditas' => $komoditas,
+                    'type' => 'Tegal'
+                ];
+                $luasSawah = $reports->select('COALESCE(SUM(luas), 0) as luas')
+                    ->where($condSawah)
+                    ->where('YEAR(created_at)', $tahun)
+                    ->get()->getRowArray();
+                $luasTegal = $reports->select('COALESCE(SUM(luas), 0) as luas')
+                    ->where($condTegal)
+                    ->where('YEAR(created_at)', $tahun)
+                    ->get()->getRowArray();
+                $totalLuas += $luasTegal['luas'] + $luasSawah['luas'];
+                $luasBulanan[] = [
+                    'bulan' => $month,
+                    'sawah' => $luasSawah['luas'],
+                    'tegal' => $luasTegal['luas'],
+                ];
+            }
+
+
+            $data['reports'][] = [
+                'idKec' => $kecamatan['id_kec'],
+                'namaKec' => $kecamatan['nm_kec'],
+                'luasBulanan' => $luasBulanan,
+                'totalLuas' => $totalLuas,
+            ];
+        }
+        $jumlahBulanan = [];
+        $jumlahTotal = 0;
+        foreach ($months as $month) {
+            $jumlahSawahBulanan = $reports->where('nama_komoditas', $komoditas)
+                ->where('bulan', $month)
+                ->where('type', 'Sawah')
+                ->where('YEAR(created_at)', $tahun)
+                ->select('COALESCE(SUM(luas), 0) as luas')
+                ->get()->getRowArray();
+            $jumlahTegalBulanan = $reports->where('nama_komoditas', $komoditas)
+                ->where('bulan', $month)
+                ->where('type', 'Tegal')
+                ->where('YEAR(created_at)', $tahun)
+                ->select('COALESCE(SUM(luas), 0) as luas')
+                ->get()->getRowArray();
+            $jumlahTotal += $jumlahTegalBulanan['luas'] + $jumlahSawahBulanan['luas'];
+            $jumlahBulanan[] = [
+                'bulan' => $month,
+                'sawah' => $jumlahSawahBulanan['luas'],
+                'tegal' => $jumlahTegalBulanan['luas'],
+            ];
+        }
+        $data['jumlah'] = [
+            'bulanan' => $jumlahBulanan,
+            'total' => $jumlahTotal,
+        ];
+        // dd($data['jumlah']);
         return view('dashboard/report', $data);
     }
 }
