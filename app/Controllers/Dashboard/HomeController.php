@@ -84,7 +84,7 @@ class HomeController extends BaseController
                 'message' => 'Success to get data',
                 'data' => $data['komoditas'],
             ];
-            return json_encode($response);
+            return $this->response->setJSON($response);
         }
 
         return view('dashboard/index', $data);
@@ -108,10 +108,9 @@ class HomeController extends BaseController
         $kecamatans = $kec->orderBy('nm_kec', 'ASC')->findAll();
         $komoditas = $request->getGet('tanaman');
         $months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        $reports = $db->table('reports_view');
 
         $data['kecamatans'] = $kecamatans;
-        $reports = $db->table('reports_view');
-        // $data['reports'] = $reports;
         $data['years'] = $db->table('reports_view')->select('year(created_at) as years')->groupBy('year(created_at)')->orderBy('year(created_at) desc')->get()->getResultArray();
         $data['komoditas'] = $komoditas;
         $data['months'] = $months;
@@ -196,7 +195,7 @@ class HomeController extends BaseController
         $currentUrl = current_url();
         $apiUrl = base_url(route_to('api.reports.kecamatan'));
         if ($currentUrl == $apiUrl) {
-            return json_encode($response);
+            return $this->response->setJSON($response);
         }
         return view('dashboard/report', $data);
     }

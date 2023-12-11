@@ -53,7 +53,7 @@ $routes->group('ajax', function ($routes) {
 $routes->group('api', function ($routes) {
     $routes->group('reports', function ($routes) {
         $routes->get('', 'Dashboard\HomeController::index', ['as' => 'api.reports']);
-        $routes->get('kecamatan', 'Dashboard\HomeController::report');
-        $routes->post('desa', 'Dashboard\AjaxController::getDetailLuasPerBulan', ['as' => 'api.reports.kecamatan']);
+        $routes->get('kecamatan', 'Dashboard\HomeController::report', ['as' => 'api.reports.kecamatan']);
+        $routes->post('desa', 'Dashboard\AjaxController::getDetailLuasPerBulan');
     });
 });
