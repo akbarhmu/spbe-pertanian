@@ -28,7 +28,7 @@ $routes->group('', ['filter' => ['auth', 'verified', 'penyuluh']], function ($ro
 
 $routes->group('dashboard', ['filter' => ['auth', 'verified']], function ($routes) {
     $routes->get('/', 'Dashboard\HomeController::index', ['as' => 'dashboard']);
-    $routes->get('report', 'Dashboard\HomeController::report');
+    $routes->get('report', 'Dashboard\HomeController::report', ['as' => 'dashboard.reports']);
 
     // Master Komoditas
     $routes->group('komoditas', ['filter' => 'admin'], function ($routes) {
@@ -48,4 +48,12 @@ $routes->group('dashboard', ['filter' => ['auth', 'verified']], function ($route
 
 $routes->group('ajax', function ($routes) {
     $routes->post('getDetailLuasPerBulan', 'Dashboard\AjaxController::getDetailLuasPerBulan', ['as' => 'ajax.get-detail-luas-per-bulan']);
+});
+
+$routes->group('api', function ($routes) {
+    $routes->group('reports', function ($routes) {
+        $routes->get('', 'Dashboard\HomeController::index', ['as' => 'api.reports']);
+        $routes->get('kecamatan', 'Dashboard\HomeController::report');
+        $routes->post('desa', 'Dashboard\AjaxController::getDetailLuasPerBulan', ['as' => 'api.reports.kecamatan']);
+    });
 });

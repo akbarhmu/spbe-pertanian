@@ -22,13 +22,10 @@ class AjaxController extends BaseController
 
         $namaKec = $kec->select('nm_kec')->where('id_kec', $kecamatan)->first();
 
-        $commodity = new CommodityModel();
-        // $id_commodity = $commodity->where('name', $komoditas)->where('type', $type)->first()['id'];
-
         $report = $db->table('reports_view');
         $result = $report->select('nm_desa, SUM(luas)')
             ->where('nama_komoditas', $komoditas)
-            ->where('nm_kec', $namaKec)
+            ->where('nm_kec', $kecamatan)
             ->where('YEAR(created_at)', $tahun)
             ->where('bulan', $bulan)
             ->where('type', $type)

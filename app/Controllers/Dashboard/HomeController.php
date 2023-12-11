@@ -76,6 +76,17 @@ class HomeController extends BaseController
             ];
         }
 
+        $currentUrl = current_url();
+        $apiUrl = base_url(route_to('api.reports'));
+        if ($currentUrl == $apiUrl) {
+            $response = [
+                'status' => 200,
+                'message' => 'Success to get data',
+                'data' => $data['komoditas'],
+            ];
+            return json_encode($response);
+        }
+
         return view('dashboard/index', $data);
     }
 
@@ -105,9 +116,6 @@ class HomeController extends BaseController
         $data['komoditas'] = $komoditas;
         $data['months'] = $months;
         $data['reports'] = [];
-
-
-
 
         foreach ($kecamatans as $kecamatan) {
             $luasBulanan = [];
@@ -140,7 +148,6 @@ class HomeController extends BaseController
                     'tegal' => $luasTegal['luas'],
                 ];
             }
-
 
             $data['reports'][] = [
                 'idKec' => $kecamatan['id_kec'],
@@ -175,7 +182,22 @@ class HomeController extends BaseController
             'bulanan' => $jumlahBulanan,
             'total' => $jumlahTotal,
         ];
-        // dd($data['jumlah']);
+
+        $dataResponse = [
+            'reports' => $data['reports'],
+            'jumlah' => $data['jumlah']
+        ];
+
+        $response = [
+            'data' => $dataResponse,
+            'message' => 'Success to get data',
+            'status' => 200,
+        ];
+        $currentUrl = current_url();
+        $apiUrl = base_url(route_to('api.reports.kecamatan'));
+        if ($currentUrl == $apiUrl) {
+            return json_encode($response);
+        }
         return view('dashboard/report', $data);
     }
 }
