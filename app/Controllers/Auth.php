@@ -64,7 +64,7 @@ class Auth extends BaseController
                         'message' => 'Login gagal. Periksa kembali email dan password anda.',
                         'icon' => 'fa-solid fa-xmark'
                     ]);
-                    return redirect()->back();
+                    return redirect()->back()->withInput();
                 }
             } else {
                 session()->setFlashdata('alert_message', [
