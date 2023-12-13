@@ -54,9 +54,7 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                                     });
                                 </script>
 
-
-
-                                <i data-feather="download"></i>
+                                <button class="btn btn-primary ms-3 btn-icon" onclick="ExportToExcel('xlsx')"><i data-feather="download"></i> Excel</button>
                             </div>
                         </div>
                         <div class="card-body px-0 pb-0">
@@ -102,7 +100,7 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                                                     $perubahanLuasTegal = $luas['tegal'] - $luasTegalSebelumnya;
                                                     ?>
 
-                                                    <td class="p-2">
+                                                    <td class="p-2" data-v="<?= $luas['sawah'] ?>">
                                                         <a class="btn-luas" <?= ($luas['sawah'] != 0) ? 'data-bs-toggle="modal" data-bs-target="#modalDetailLuasPerBulan"' : '' ?> data-nama-kecamatan="<?= $report['namaKec'] ?>" data-kecamatan="<?= $report['idKec'] ?>" data-tahun="<?= $tahun ?>" data-bulan="<?= $luas['bulan'] ?>" data-komoditas="<?= $komoditas ?>" data-type="Sawah">
                                                             <?php if ($perubahanLuasSawah > 0) : ?>
                                                                 <p class="text-success mb-0" style="font-size: 0.8rem">
@@ -121,7 +119,7 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                                                             <h4 class="text-dark text-bold text-underlined"><?= $luas['sawah'] ?></h4>
                                                         </a>
                                                     </td>
-                                                    <td class="p-2">
+                                                    <td class="p-2" data-v="<?= $luas['tegal'] ?>">
                                                         <a class="btn-luas" <?= ($luas['tegal'] != 0) ? 'data-bs-toggle="modal" data-bs-target="#modalDetailLuasPerBulan"' : '' ?> data-nama-kecamatan="<?= $report['namaKec'] ?>" data-kecamatan="<?= $report['idKec'] ?>" data-tahun="<?= $tahun ?>" data-bulan="<?= $luas['bulan'] ?>" data-komoditas="<?= $komoditas ?>" data-type="Tegal">
                                                             <?php if ($perubahanLuasTegal > 0) : ?>
                                                                 <p class="text-success mb-0" style="font-size: 0.8rem">
@@ -304,7 +302,64 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
+<script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
 <script>
+    function ExportToExcel(type, fn, dl) {
+        var elt = document.getElementById('table1');
+        var wb = XLSX.utils.table_to_book(elt, {
+            sheet: "sheet1"
+        });
+        var ws = wb.Sheets["sheet1"];
+        var wscols = [ {wch:10}, {wch:20}, {wch:10}, {wch:10},{wch:10}, {wch:10}];
+        ws['!cols'] = wscols;
+        
+        for (i in ws) {
+            if (typeof(ws[i]) != "object") continue;
+            let cell = XLSX.utils.decode_cell(i);
+
+            ws[i].s = { // styling for all cells
+                font: {
+                    name: "arial"
+                },
+                alignment: {
+                    vertical: "center",
+                    horizontal: "center",
+                    wrapText: '0', // any truthy value here
+                },
+                border: {
+                    right: {
+                        style: "thin",
+                        color: "000000"
+                    },
+                    left: {
+                        style: "thin",
+                        color: "000000"
+                    },
+                    top: {
+                        style: "thin",
+                        color: "000000"
+                    },
+                    bottom: {
+                        style: "thin",
+                        color: "000000"
+                    }
+                }
+            };
+
+            if (cell.r == 0 || cell.r == 1) { // first row
+                ws[i].s.font.bold = true;
+            }
+        }
+
+        return dl ?
+            XLSX.write(wb, {
+                bookType: type,
+                bookSST: true,
+                type: 'base64'
+            }) :
+            XLSX.writeFile(wb, fn || ('Sasaran Areal Tanaman <?= $komoditas ?> (Ha) Kabupaten Malang <?= $tahun ?>.' + (type || 'xlsx')));
+    }
+
     $(document).ready(function() {
         $('#modalDetailLuasPerBulan').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget);
