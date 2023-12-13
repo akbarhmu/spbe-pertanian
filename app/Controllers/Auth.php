@@ -114,16 +114,12 @@ class Auth extends BaseController
                 $user = new UserModel();
 
                 $user->insert($data);
-                $data["id"] = $user->getInsertID();
-                $data["isLoggedIn"] = true;
-                unset($data["password"]);
-                session()->set($data);
                 session()->setFlashdata('alert_message', [
                     'type' => 'success',
-                    'message' => 'Akun berhasil dibuat',
+                    'message' => 'Akun berhasil dibuat. Silahkan menunggu konfirmasi admin.',
                     'icon' => 'fa-solid fa-check'
                 ]);
-                return redirect()->to('/dashboard');
+                return redirect()->to('/login');
             } catch (\Throwable $th) {
                 session()->setFlashdata('alert_message', [
                     'type' => 'danger',
