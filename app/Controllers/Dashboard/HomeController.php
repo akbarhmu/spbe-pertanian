@@ -4,6 +4,7 @@ namespace App\Controllers\Dashboard;
 
 use App\Controllers\BaseController;
 use App\Models\CommodityModel;
+use App\Models\DesaModel;
 use App\Models\KecamatanModel;
 use App\Models\ReportModel;
 use DateTime;
@@ -25,6 +26,9 @@ class HomeController extends BaseController
         $commodities = $commoditiesModel->findAll();
         $commoditiesName = array_unique(array_column($commodities, 'name'));
 
+        $desaModel = new DesaModel();
+        $desa = $desaModel->orderBy('nm_desa', 'ASC')->findAll();
+
         $updatedAt = array_column($reports, 'updated_at');
         array_multisort($updatedAt, SORT_DESC, $reports);
         // $dateTime = new DateTime($reports[0]['updated_at']);
@@ -34,6 +38,8 @@ class HomeController extends BaseController
             "bulan" => $bulanIni,
             "bulanLalu" => $bulanLalu,
             // "latest_updated_at" => $latestUpdatedAt,
+            "months" => $months,
+            "desa" => $desa,
             "komoditas" => []
         ];
 
@@ -110,10 +116,14 @@ class HomeController extends BaseController
         $months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
         $reports = $db->table('reports_view');
 
+        $desaModel = new DesaModel();
+        $desa = $desaModel->orderBy('nm_desa', 'ASC')->findAll();
+
         $data['kecamatans'] = $kecamatans;
         $data['years'] = $db->table('reports_view')->select('year(created_at) as years')->groupBy('year(created_at)')->orderBy('year(created_at) desc')->get()->getResultArray();
         $data['komoditas'] = $komoditas;
         $data['months'] = $months;
+        $data['desa'] = $desa;
         $data['reports'] = [];
 
         foreach ($kecamatans as $kecamatan) {

@@ -56,6 +56,7 @@ class Validation extends BaseConfig
         'month'              => 'required',
         'week'             => 'required|numeric|less_than[6]',
         'kelurahan'       => 'required|numeric',
+        'justifikasi'   => 'permit_empty'
     ];
 
     public array $report_errors = [

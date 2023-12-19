@@ -4,6 +4,7 @@ namespace App\Controllers\Dashboard;
 
 use App\Controllers\BaseController;
 use App\Models\CommodityModel;
+use App\Models\DesaModel;
 
 class KomoditasController extends BaseController
 {
@@ -13,6 +14,12 @@ class KomoditasController extends BaseController
         $commodities = new CommodityModel();
         $data["commodities"] = $commodities->findAll();
         $data["typeLahans"] = ["Sawah", "Tegal"];
+        $data["months"] = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli",
+            "Agustus", "September", "Oktober", "November", "Desember"];
+
+        $desaModel = new DesaModel();
+        $desa = $desaModel->orderBy('nm_desa', 'ASC')->findAll();
+        $data["desa"] = $desa;
         return view('commodity/index.php', $data);
     }
 

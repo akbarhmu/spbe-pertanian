@@ -62,6 +62,11 @@ Formulir Lahan Desa
                                         </select>
                                         <?= validation_show_error('kelurahan', 'single_error') ?>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="justifikasi">Justifikasi</label>
+                                        <textarea name="justifikasi" id="justifikasi" class="form-control <?= (isset(validation_errors()['justifikasi'])) ? 'is-invalid' : '' ?>" rows="3" placeholder="Masukan keterangan justifikasi jika diperlukan"><?=old('justifikasi')?></textarea>
+                                        <?= validation_show_error('justifikasi', 'single_error') ?>
+                                    </div>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <div class="d-flex justify-content-between align-items-center">

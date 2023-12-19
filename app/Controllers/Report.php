@@ -45,6 +45,7 @@ class Report extends BaseController
                 $month = $validatedData['month'];
                 $week = $validatedData['week'];
                 $kelurahan = $validatedData['kelurahan'];
+                $justifikasi = $validatedData['justifikasi'];
 
                 foreach ($validatedData['lahan'] as $key => $value) {
                     $data = [
@@ -55,6 +56,7 @@ class Report extends BaseController
                         "bulan" => $month,
                         "id_commodity" => $key,
                         'luas' => $value,
+                        'justifikasi' => $justifikasi
                     ];
                     $lahan->insert($data);
                 };
@@ -71,7 +73,6 @@ class Report extends BaseController
                     'message' => 'Data gagal dibuat',
                     'icon' => 'fa-solid fa-xmark'
                 ]);
-                // dd($th->getMessage());
                 return redirect()->back();
             }
         }

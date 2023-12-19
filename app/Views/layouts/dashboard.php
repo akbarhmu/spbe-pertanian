@@ -65,6 +65,12 @@
                                 </a>
                             </li>
                         <?php endif ?>
+                        <li class="sidebar-item <?= uri_string() == 'dashboard/laporan' ? 'active' : '' ?>">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#modalFilterLaporan" class='sidebar-link'>
+                                <i data-feather="file-text" width="20"></i>
+                                <span>Laporan Mingguan</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
@@ -134,6 +140,59 @@
 
             <?= $this->renderSection('content') ?>
 
+            <!-- Laporan Mingguan Filter Modal -->
+            <form action="<?=route_to('reports')?>" method="get">
+            <div class="modal fade" id="modalFilterLaporan" tabindex="-1" role="dialog" aria-labelledby="modalFilterLaporanTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalFilterLaporanTitle">Laporan Mingguan</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <i data-feather="x"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="bulan">Bulan</label>
+                                <select name="bulan" id="bulan" class="form-select" required>
+                                    <option value="">Pilih Bulan</option>
+                                    <?php foreach ($months as $month) : ?>
+                                        <option value="<?= $month ?>"><?= $month ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="id_desa">Desa</label>
+                                <select name="id_desa" id="id_desa" class="form-select" required>
+                                    <option value="">Pilih Desa/Kelurahan</option>
+                                    <?php foreach ($desa as $row) : ?>
+                                        <option value="<?= $row['id_desa'] ?>"><?= $row['nm_desa'] ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="type">Jenis Lahan</label>
+                                <select name="type" id="type" class="form-select" required>
+                                    <option value="">Pilih Lahan</option>
+                                    <option value="Sawah">Sawah</option>
+                                    <option value="Tegal">Tegal</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Batal</span>
+                            </button>
+                            <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                                <i class="bx bx-check d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Cari</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
             <footer>
                 <div class="footer clearfix mb-0 text-muted">
                     <div class="float-start">

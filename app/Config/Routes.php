@@ -44,6 +44,9 @@ $routes->group('dashboard', ['filter' => ['auth', 'verified']], function ($route
         $routes->post('(:num)/verify', 'Dashboard\UserController::verify/$1', ['as' => 'users.verify']);
         $routes->delete('(:num)', 'Dashboard\UserController::destroy/$1', ['as' => 'users.destroy']);
     });
+
+    // Laporan Mingguan
+    $routes->get('reports', 'Dashboard\LaporanMingguanController::index', ['as' => 'reports']);
 });
 
 $routes->group('ajax', function ($routes) {

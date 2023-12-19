@@ -3,6 +3,7 @@
 namespace App\Controllers\Dashboard;
 
 use App\Controllers\BaseController;
+use App\Models\DesaModel;
 use App\Models\UserModel;
 
 class UserController extends BaseController
@@ -11,6 +12,12 @@ class UserController extends BaseController
     {
         $userModel = new UserModel();
         $data['users'] = $userModel->with('kecamatan')->findAll();
+        $data['months'] = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli",
+            "Agustus", "September", "Oktober", "November", "Desember"];
+
+        $desaModel = new DesaModel();
+        $desa = $desaModel->orderBy('nm_desa', 'ASC')->findAll();
+        $data["desa"] = $desa;
 
         return view('users/index', $data);
     }
