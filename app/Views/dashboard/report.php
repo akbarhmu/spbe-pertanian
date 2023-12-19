@@ -31,7 +31,7 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
 
-                            <h4 class="card-title">Sasaran Areal Tanaman <?= $komoditas ?> (Ha) Kabupaten Malang </h4>
+                            <h4 class="card-title">Sasaran Areal Tanaman <?= $komoditas ?> (Ha) Kabupaten Malang</h4>
                             <div class="d-flex ">
 
 
@@ -61,6 +61,9 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                             <div class="table-responsive">
                                 <table class='table mb-0' id="table1">
                                     <thead>
+                                        <tr>
+                                            <th colspan="27" class="d-none">Sasaran Areal Tanaman <?= $komoditas ?> (Ha) Kabupaten Malang <?= $tahun ?></th>
+                                        </tr>
                                         <tr>
                                             <th style="text-align:center" rowspan="2">No.</th>
                                             <th style="text-align:center" rowspan="2">Kecamatan</th>
@@ -275,7 +278,7 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                                 <tr>
                                     <th style="text-align:center">No.</th>
                                     <th style="text-align:center">Desa/Kelurahan</th>
-                                    <th style="text-align:center">Luas</th>
+                                    <th style="text-align:center">Luas (Ha)</th>
                                 </tr>
                             </thead>
                             <tbody id="tbody-detail-luas-per-bulan">
@@ -346,7 +349,7 @@ Tanaman <?= $komoditas ?> Kabupaten Malang
                 }
             };
 
-            if (cell.r == 0 || cell.r == 1) { // first row
+            if (cell.r == 0 || cell.r == 1 || cell.r == 2) { // first row
                 ws[i].s.font.bold = true;
             }
         }
